@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://weteam.cxgtyguavnur.us-east-2.rds.amazonaws.com:3306/weteam
+    username: admin
+    password: doctor978!
+  jpa:
+    # Table ?? ? ddl-auto ???
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+#    res? ?? json???? ?? ???? ??
+  jackson:
+    serialization:
+      indent-output: true
