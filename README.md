@@ -1,5 +1,12 @@
 # we-team-backend
 
+
+
+### Git Commit Convention
+
+- commit message 작성 방법
+> 태그(작업자): 제목
+
 | Tag Name | Description |
 | --- | --- |
 | Feat | 새로운 기능을 추가 |
