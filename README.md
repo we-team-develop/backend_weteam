@@ -5,7 +5,7 @@
 ### Git Commit Convention
 
 - commit message 작성 방법
-> 태그(작업자): 제목
+> 태그: 제목
 
 | Tag Name | Description |
 | --- | --- |
