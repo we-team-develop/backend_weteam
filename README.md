@@ -1,7 +1,5 @@
 # we-team-backend
 
-
-
 ### Git Commit Convention
 
 - commit message 작성 방법
