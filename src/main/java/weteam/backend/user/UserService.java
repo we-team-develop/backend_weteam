@@ -26,6 +26,10 @@ public class UserService implements UserDetailsService {
                              .orElseThrow(() -> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다."));
     }
 
+//    public User findByUsername(String usname) {
+//        return userRepository.findByUsername(usname).orElseThrow(()->)
+//    }
+
     public org.springframework.security.core.userdetails.User createSecurityUser(User user) {
         List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                                                         .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
