@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import weteam.backend.config.BaseEntity;
 
+import java.util.Set;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,4 +32,11 @@ public class User extends BaseEntity {
     @ToString.Exclude
     @JsonIgnore
     private UserImage image;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "userId")},
+            inverseJoinColumns = {@JoinColumn(name = "authorityName")})
+    private Set<Authority> authorities;
 }
