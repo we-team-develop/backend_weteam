@@ -30,6 +30,7 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    implementation 'org.jetbrains:annotations:24.0.0'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
