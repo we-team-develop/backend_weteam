@@ -1,4 +1,4 @@
-package weteam.backend.user.sevice;
+package weteam.backend.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
