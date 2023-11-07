@@ -17,26 +17,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
     private final UserRepository userRepository;
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                             .map(this::createSecurityUser)
-                             .orElseThrow(() -> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다."));
-    }
-
-//    public User findByUsername(String usname) {
-//        return userRepository.findByUsername(usname).orElseThrow(()->)
-//    }
-
-    public org.springframework.security.core.userdetails.User createSecurityUser(User user) {
-        List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-                                                        .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
-                                                        .collect(Collectors.toList());
-
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                        user.getPassword(),
-                        grantedAuthorities);
-    }
 }
