@@ -1,22 +1,40 @@
 package weteam.backend.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import weteam.backend.user.domain.dto.JoinRequest;
 import weteam.backend.user.repository.UserRepository;
 import weteam.backend.user.domain.User;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
+    public void join(JoinRequest request) {
+        if (!request.isVerifyUsername() || !request.isVerifyNickname()) {
+            throw new RuntimeException("중복확인 필수");
+        }
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public Optional<User> findByNickname(String nickname) {
+        return userRepository.findByNickname(nickname);
+    }
+
+    public String verifyUsername(String username) {
+        return this.findByUsername(username).isPresent() ? "중복된 아이디입니다." : "사용 가능한 아이디입니다";
+    }
+
+    public String verifyNickname(String nickname) {
+        return this.findByNickname(nickname).isPresent() ? "중복된 닉네임입니다." : "사용 가능한 닉네임입니다";
+    }
 }
+
