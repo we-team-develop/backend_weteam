@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weteam.backend.user.domain.dto.JoinRequest;
+import weteam.backend.user.mapper.UserMapper;
 import weteam.backend.user.repository.UserRepository;
 import weteam.backend.user.domain.User;
 
@@ -19,6 +20,9 @@ public class UserService {
         if (!request.isVerifyUsername() || !request.isVerifyNickname()) {
             throw new RuntimeException("중복확인 필수");
         }
+        User user = UserMapper.instance.toEntity(request);
+        user.getRoles().add("USER");
+        userRepository.save(user);
     }
 
     public Optional<User> findByUsername(String username) {

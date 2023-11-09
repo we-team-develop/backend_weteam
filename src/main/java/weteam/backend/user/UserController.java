@@ -1,5 +1,6 @@
 package weteam.backend.user;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +10,13 @@ import weteam.backend.user.domain.dto.JoinRequest;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
+@Tag(name = "User",description = "User API")
 public class UserController {
     private final UserService userService;
 
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody @Valid JoinRequest request) {
+        userService.join(request);
         return ResponseEntity.ok("가입 완료");
     }
 
