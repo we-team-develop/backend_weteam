@@ -19,9 +19,7 @@ public class JoinRequest {
     @NotBlank(message = "nickname 누락")
     private String nickname;
 
-    @NotBlank(message = "아이디 중복확인 필수")
     private boolean verifyUsername;
 
-    @NotBlank(message = "닉네임 중복확인 필수")
     private boolean verifyNickname;
 }
