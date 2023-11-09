@@ -16,3 +16,8 @@ spring:
 
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
+
+springdoc:
+  api-docs:
+    enabled: true
+  default-consumes-media-type: application/json
