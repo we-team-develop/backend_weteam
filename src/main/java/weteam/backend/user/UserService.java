@@ -1,9 +1,11 @@
 package weteam.backend.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weteam.backend.user.domain.dto.JoinRequest;
+import weteam.backend.user.domain.dto.LoginRequest;
 import weteam.backend.user.mapper.UserMapper;
 import weteam.backend.user.repository.UserRepository;
 import weteam.backend.user.domain.User;
@@ -15,13 +17,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void join(JoinRequest request) {
         if (!request.isVerifyUsername() || !request.isVerifyNickname()) {
             throw new RuntimeException("중복확인 필수");
         }
+        String hashedPassword = passwordEncoder.encode(request.getPassword());
         User user = UserMapper.instance.toEntity(request);
         user.getRoles().add("USER");
+        user.setPassword(hashedPassword);
         userRepository.save(user);
     }
 

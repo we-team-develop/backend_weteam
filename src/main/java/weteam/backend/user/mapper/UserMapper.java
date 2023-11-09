@@ -16,6 +16,8 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "image", ignore = true)
+    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "password", ignore = true)
     User toEntity(JoinRequest request);
 
     UserResponse toRes(User user);
