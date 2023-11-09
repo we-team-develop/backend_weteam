@@ -33,7 +33,6 @@ public class UserService {
     }
 
     public User login(LoginRequest request) {
-        System.out.println(1);
         User user = findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
