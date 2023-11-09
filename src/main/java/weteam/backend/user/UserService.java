@@ -1,11 +1,13 @@
 package weteam.backend.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weteam.backend.user.domain.dto.JoinRequest;
 import weteam.backend.user.domain.dto.LoginRequest;
+import weteam.backend.user.domain.dto.UserResponse;
 import weteam.backend.user.mapper.UserMapper;
 import weteam.backend.user.repository.UserRepository;
 import weteam.backend.user.domain.User;
@@ -28,6 +30,16 @@ public class UserService {
         user.getRoles().add("USER");
         user.setPassword(hashedPassword);
         userRepository.save(user);
+    }
+
+    public User login(LoginRequest request) {
+        System.out.println(1);
+        User user = findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("비밀번호를 확인해 주세요");
+        }
+        return user;
     }
 
     public Optional<User> findByUsername(String username) {

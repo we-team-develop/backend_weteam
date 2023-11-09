@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import weteam.backend.user.domain.dto.JoinRequest;
+import weteam.backend.user.domain.dto.LoginRequest;
+import weteam.backend.user.domain.dto.UserResponse;
+import weteam.backend.user.mapper.UserMapper;
 
 @RestController
 @RequestMapping("/api/users")
@@ -18,6 +21,12 @@ public class UserController {
     public ResponseEntity<String> join(@RequestBody @Valid JoinRequest request) {
         userService.join(request);
         return ResponseEntity.ok("가입 완료");
+    }
+    
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> login(@RequestBody @Valid LoginRequest request) {
+        // TODO: 후에 jwt 로직으로 교체
+        return ResponseEntity.ok(UserMapper.instance.toRes(userService.login(request)));
     }
 
     @GetMapping("/verify/username/{username}")
