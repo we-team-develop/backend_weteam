@@ -1,12 +1,13 @@
 package weteam.backend.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import weteam.backend.config.BaseEntity;
+import weteam.backend.common.domain.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +27,7 @@ public class User extends BaseEntity implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
+    @Schema(description = "사용자 아이디", nullable = false, example = "user1")
     private String username;
 
     @Column(nullable = false)

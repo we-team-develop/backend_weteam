@@ -1,7 +1,9 @@
 package weteam.backend.user.domain.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,15 +13,23 @@ import lombok.Data;
 @Builder
 public class JoinRequest {
     @NotBlank(message = "username 누락")
+    @Size(min = 8,max = 50)
+    @Schema(description = "사용자 아이디", nullable = false, example = "user11111")
     private String username;
 
     @NotBlank(message = "password 누락")
+    @Size(min = 8,max = 50)
+    @Schema(description = "사용자 비밀번호", nullable = false, example = "1111")
     private String password;
 
     @NotBlank(message = "nickname 누락")
+    @Size(min = 8,max = 50)
+    @Schema(description = "사용자 닉네임", nullable = false, example = "nickname1")
     private String nickname;
 
+    @Schema(description = "아이디 중복 확인여부", nullable = false, example = "true")
     private boolean verifyUsername;
 
+    @Schema(description = "닉네임 중복 확인여부", nullable = false, example = "true")
     private boolean verifyNickname;
 }
