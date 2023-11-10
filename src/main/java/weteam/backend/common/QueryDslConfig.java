@@ -1,4 +1,4 @@
-package weteam.backend.config;
+package weteam.backend.common;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
