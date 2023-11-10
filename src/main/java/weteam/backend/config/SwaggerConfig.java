@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Collections;
 
 @OpenAPIDefinition(
-        info = @Info(title = "User-Service API 명세서",
-                     description = "사용자 어플 서비스 API 명세서",
+        info = @Info(title = "Weteam Swagger",
+                     description = "api 명세서",
                      version = "v1"))
 @Configuration
 public class SwaggerConfig {
