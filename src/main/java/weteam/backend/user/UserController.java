@@ -2,19 +2,16 @@ package weteam.backend.user;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.FutureOrPresent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import weteam.backend.common.domain.dto.VerifyResponse;
-import weteam.backend.user.domain.dto.JoinRequest;
-import weteam.backend.user.domain.dto.LoginRequest;
+import weteam.backend.user.domain.dto.UserJoin;
+import weteam.backend.user.domain.dto.UserLogin;
 import weteam.backend.user.domain.dto.UserResponse;
 import weteam.backend.user.mapper.UserMapper;
 
@@ -32,7 +29,7 @@ public class UserController {
                        @ApiResponse(responseCode = "200",
                                     content = @Content(schema = @Schema(implementation = UserResponse.class)))
                })
-    public ResponseEntity<UserResponse> join(@RequestBody @Valid JoinRequest request) {
+    public ResponseEntity<UserResponse> join(@RequestBody @Valid UserJoin request) {
         return ResponseEntity.ok(UserMapper.instance.toRes(userService.join(request)));
     }
 
@@ -43,7 +40,7 @@ public class UserController {
                        @ApiResponse(responseCode = "200",
                                     content = @Content(schema = @Schema(implementation = UserResponse.class)))
                })
-    public ResponseEntity<UserResponse> login(@RequestBody @Valid LoginRequest request) {
+    public ResponseEntity<UserResponse> login(@RequestBody @Valid UserLogin request) {
         // TODO: 후에 jwt 로직으로 교체
         return ResponseEntity.ok(UserMapper.instance.toRes(userService.login(request)));
     }

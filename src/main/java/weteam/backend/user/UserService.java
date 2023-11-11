@@ -1,14 +1,12 @@
 package weteam.backend.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weteam.backend.common.domain.dto.VerifyResponse;
-import weteam.backend.user.domain.dto.JoinRequest;
-import weteam.backend.user.domain.dto.LoginRequest;
-import weteam.backend.user.domain.dto.UserResponse;
+import weteam.backend.user.domain.dto.UserJoin;
+import weteam.backend.user.domain.dto.UserLogin;
 import weteam.backend.user.mapper.UserMapper;
 import weteam.backend.user.repository.UserRepository;
 import weteam.backend.user.domain.User;
@@ -22,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User join(JoinRequest request) {
+    public User join(UserJoin request) {
         if (!request.isVerifyUsername() || !request.isVerifyNickname()) {
             throw new RuntimeException("중복확인 필수");
         }
@@ -33,7 +31,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User login(LoginRequest request) {
+    public User login(UserLogin request) {
         User user = findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {

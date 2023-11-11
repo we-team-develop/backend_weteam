@@ -9,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 @Builder
-public class LoginRequest {
+public class UserLogin {
     @NotBlank(message = "username 누락")
     @Schema(description = "사용자 아이디", nullable = false, example = "user11111")
     private String username;

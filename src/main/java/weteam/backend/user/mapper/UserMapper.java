@@ -6,7 +6,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import weteam.backend.user.domain.User;
-import weteam.backend.user.domain.dto.JoinRequest;
+import weteam.backend.user.domain.dto.UserJoin;
 import weteam.backend.user.domain.dto.UserResponse;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
@@ -18,7 +18,7 @@ public interface UserMapper {
     @Mapping(target = "image", ignore = true)
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "password", ignore = true)
-    User toEntity(JoinRequest request);
+    User toEntity(UserJoin request);
 
     UserResponse toRes(User user);
 }
