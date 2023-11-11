@@ -48,16 +48,12 @@ public class UserService {
         return userRepository.findByNickname(nickname);
     }
 
-    public VerifyResponse verifyUsername(String username) {
-        return this.findByUsername(username).isPresent() ?
-               VerifyResponse.builder().result(false).message("중복된 아이디입니다.").build() :
-               VerifyResponse.builder().result(true).message("사용 가능한 아이디입니다.").build();
+    public boolean verifyUsername(String username) {
+        return this.findByUsername(username).isPresent();
     }
 
-    public VerifyResponse verifyNickname(String nickname) {
-        return this.findByNickname(nickname).isPresent() ?
-               VerifyResponse.builder().result(false).message("중복된 닉네임입니다.").build() :
-               VerifyResponse.builder().result(true).message("사용 가능한 닉네임입니다.").build();
+    public boolean verifyNickname(String nickname) {
+        return this.findByNickname(nickname).isPresent();
     }
 }
 

@@ -52,8 +52,9 @@ public class UserController {
     })
     @GetMapping("/verify/username/{username}")
     public ResponseEntity<VerifyResponse> verifyUsername(@PathVariable("username") String username) {
-
-        return ResponseEntity.ok(userService.verifyUsername(username));
+        return ResponseEntity.ok(userService.verifyUsername(username) ?
+                                 VerifyResponse.builder().result(false).message("중복된 아이디입니다.").build() :
+                                 VerifyResponse.builder().result(true).message("사용 가능한 아이디입니다.").build());
     }
 
     @GetMapping("/verify/nickname/{nickname}")
@@ -63,6 +64,8 @@ public class UserController {
                          content = @Content(schema = @Schema(implementation = VerifyResponse.class)))
     })
     public ResponseEntity<VerifyResponse> verifyNickname(@PathVariable("nickname") String nickname) {
-        return ResponseEntity.ok(userService.verifyNickname(nickname));
+        return ResponseEntity.ok(userService.verifyNickname(nickname) ?
+                                 VerifyResponse.builder().result(false).message("중복된 닉네임입니다.").build() :
+                                 VerifyResponse.builder().result(true).message("사용 가능한 닉네임입니다.").build());
     }
 }
