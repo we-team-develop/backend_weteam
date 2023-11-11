@@ -27,7 +27,6 @@ public class User extends BaseEntity implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
-    @Schema(description = "사용자 아이디", nullable = false, example = "user1")
     private String username;
 
     @Column(nullable = false)
