@@ -3,6 +3,7 @@ package weteam.backend.user.domain.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,4 +23,9 @@ public class UserResponse {
     @NotBlank(message = "nickname 누락")
     @Schema(description = "사용자 닉네임", nullable = false, example = "nickname111")
     private String nickname;
+
+    @NotBlank(message = "name 누락")
+    @Size(min = 1, max = 50)
+    @Schema(description = "사용자 성명", nullable = false, example = "김김수수한한무무거거북이")
+    private String name;
 }
