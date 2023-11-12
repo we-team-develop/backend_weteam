@@ -4,12 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import weteam.backend.common.domain.dto.VerifyResponse;
+import weteam.backend.user.domain.User;
 import weteam.backend.user.domain.dto.UserJoin;
 import weteam.backend.user.domain.dto.UserLogin;
 import weteam.backend.user.mapper.UserMapper;
 import weteam.backend.user.repository.UserRepository;
-import weteam.backend.user.domain.User;
 
 import java.util.Optional;
 
@@ -39,7 +38,6 @@ public class UserService {
         }
         return user;
     }
-
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
