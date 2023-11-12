@@ -6,8 +6,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import weteam.backend.common.domain.dto.VerifyResponse;
 import weteam.backend.user.domain.dto.UserJoin;
@@ -16,6 +18,7 @@ import weteam.backend.user.domain.dto.UserResponse;
 import weteam.backend.user.mapper.UserMapper;
 
 @RestController
+@Validated
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @Tag(name = "User", description = "user API")
@@ -51,7 +54,9 @@ public class UserController {
                          content = @Content(schema = @Schema(implementation = VerifyResponse.class)))
     })
     @GetMapping("/verify/username/{username}")
-    public ResponseEntity<VerifyResponse> verifyUsername(@PathVariable("username") String username) {
+    public ResponseEntity<VerifyResponse> verifyUsername(@Size(min = 5, max = 50) @PathVariable("username")
+                                                         String username) {
+
         return ResponseEntity.ok(userService.verifyUsername(username) ?
                                  VerifyResponse.builder().result(false).message("중복된 아이디입니다.").build() :
                                  VerifyResponse.builder().result(true).message("사용 가능한 아이디입니다.").build());
@@ -63,7 +68,7 @@ public class UserController {
                          description = "중복 확인 성공",
                          content = @Content(schema = @Schema(implementation = VerifyResponse.class)))
     })
-    public ResponseEntity<VerifyResponse> verifyNickname(@PathVariable("nickname") String nickname) {
+    public ResponseEntity<VerifyResponse> verifyNickname(@Size(min = 5, max = 50) @PathVariable("nickname") String nickname) {
         return ResponseEntity.ok(userService.verifyNickname(nickname) ?
                                  VerifyResponse.builder().result(false).message("중복된 닉네임입니다.").build() :
                                  VerifyResponse.builder().result(true).message("사용 가능한 닉네임입니다.").build());
