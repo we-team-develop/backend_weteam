@@ -11,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import weteam.backend.auth.AuthService;
+import weteam.backend.auth.domain.TokenInfo;
 import weteam.backend.common.domain.dto.VerifyResponse;
+import weteam.backend.user.domain.User;
 import weteam.backend.user.domain.dto.UserJoin;
 import weteam.backend.user.domain.dto.UserLogin;
 import weteam.backend.user.domain.dto.UserResponse;
@@ -24,6 +27,7 @@ import weteam.backend.user.mapper.UserMapper;
 @Tag(name = "User", description = "user API")
 public class UserController {
     private final UserService userService;
+    private final AuthService authService;
 
     @PostMapping("/join")
     @Operation(summary = "회원가입",
@@ -43,9 +47,9 @@ public class UserController {
                        @ApiResponse(responseCode = "200",
                                     content = @Content(schema = @Schema(implementation = UserResponse.class)))
                })
-    public ResponseEntity<UserResponse> login(@RequestBody @Valid UserLogin request) {
-        // TODO: 후에 jwt 로직으로 교체
-        return ResponseEntity.ok(UserMapper.instance.toRes(userService.login(request)));
+    public ResponseEntity<TokenInfo> login(@RequestBody @Valid UserLogin request) {
+        User user = userService.login(request);
+        return ResponseEntity.ok(authService.createToken(request.getUsername(), request.getPassword()));
     }
 
     @Operation(summary = "아이디 중복 확인", responses = {

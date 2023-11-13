@@ -1,13 +1,18 @@
 package weteam.backend.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import weteam.backend.auth.domain.TokenInfo;
 import weteam.backend.user.domain.User;
+import weteam.backend.user.domain.dto.UserLogin;
 import weteam.backend.user.repository.UserRepository;
 
 import java.util.List;
@@ -18,6 +23,8 @@ import java.util.List;
 public class AuthService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtUtil jwtUtil;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,5 +39,12 @@ public class AuthService implements UserDetailsService {
                    .password(passwordEncoder.encode(user.getPassword()))
                    .roles(List.of(user.getRoles().toArray(new String[0])))
                    .build();
+    }
+
+    public TokenInfo createToken(String username, String password) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        System.out.println("token : "+authenticationToken);
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        return jwtUtil.generateToken(authentication);
     }
 }
