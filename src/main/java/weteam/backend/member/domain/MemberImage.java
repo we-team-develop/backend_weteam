@@ -1,4 +1,4 @@
-package weteam.backend.user.domain;
+package weteam.backend.member.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,14 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class UserImage {
+public class MemberImage {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Member member;
 
     @Column(nullable = false)
     private String url;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    private User user;
 }

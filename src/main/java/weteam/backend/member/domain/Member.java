@@ -1,7 +1,6 @@
-package weteam.backend.user.domain;
+package weteam.backend.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,10 +20,13 @@ import java.util.stream.Collectors;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class User extends BaseEntity implements UserDetails {
+public class Member extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(updatable = false, unique = true, nullable = false)
+    private String uid;
 
     @Column(nullable = false)
     private String username;
@@ -35,13 +37,10 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String name;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonIgnore
-    private UserImage image;
+    private MemberImage image;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -52,6 +51,16 @@ public class User extends BaseEntity implements UserDetails {
         return this.roles.stream()
                          .map(SimpleGrantedAuthority::new)
                          .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        return uid;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

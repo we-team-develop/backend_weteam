@@ -1,4 +1,4 @@
-package weteam.backend.user.domain.dto;
+package weteam.backend.member.domain.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -10,10 +10,15 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 @Builder
-public class UserJoin {
-    @NotBlank(message = "username 누락")
+public class MemberJoin {
+    @NotBlank(message = "uid 누락")
     @Size(min = 8,max = 50)
     @Schema(description = "사용자 아이디", nullable = false, example = "user11111")
+    private String uid;
+
+    @NotBlank(message = "username 누락")
+    @Size(min = 8,max = 50)
+    @Schema(description = "사용자 이름", nullable = false, example = "홍유진")
     private String username;
 
     @NotBlank(message = "password 누락")
@@ -25,11 +30,6 @@ public class UserJoin {
     @Size(min = 8,max = 50)
     @Schema(description = "사용자 닉네임", nullable = false, example = "nickname1")
     private String nickname;
-
-    @NotBlank(message = "name 누락")
-    @Size(min = 1,max = 50)
-    @Schema(description = "사용자 성명", nullable = false, example = "김김수수한한무무거거북이")
-    private String name;
 
     @Schema(description = "아이디 중복 확인여부", nullable = false, example = "true")
     private boolean verifyUsername;
