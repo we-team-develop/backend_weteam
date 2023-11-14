@@ -26,10 +26,11 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-//                .and()
-//                .authorizeHttpRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한을 설정하겠다.
-//                .requestMatchers("/api/users/join").permitAll()
-//                .anyRequest().authenticated()
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/users/join").permitAll()
+                .requestMatchers("/api/users/login").permitAll()
+                .anyRequest().authenticated()
 
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
