@@ -14,7 +14,7 @@ import lombok.Data;
 public class MemberResponse {
     @NotNull(message = "uid 누락")
     @Schema(description = "사용자 아이디", nullable = false, example = "user1111")
-    private Long uid;
+    private String uid;
 
     @NotBlank(message = "username 누락")
     @Schema(description = "사용자 이름", nullable = false, example = "홍유진")

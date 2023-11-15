@@ -31,23 +31,23 @@ public class MemberService {
     }
 
     public Member login(MemberLogin request) {
-        Member member = findByUsername(request.getUid())
+        Member member = findByUid(request.getUid())
                 .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new RuntimeException("비밀번호를 확인해 주세요");
         }
         return member;
     }
-    public Optional<Member> findByUsername(String username) {
-        return memberRepository.findByUsername(username);
+    public Optional<Member> findByUid(String username) {
+        return memberRepository.findByUid(username);
     }
 
     public Optional<Member> findByNickname(String nickname) {
         return memberRepository.findByNickname(nickname);
     }
 
-    public boolean verifyUsername(String username) {
-        return this.findByUsername(username).isPresent();
+    public boolean verifyUid(String uid) {
+        return this.findByUid(uid).isPresent();
     }
 
     public boolean verifyNickname(String nickname) {
