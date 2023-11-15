@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import weteam.backend.auth.domain.TokenInfo;
 import weteam.backend.member.domain.Member;
 import weteam.backend.member.repository.MemberRepository;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,14 +40,13 @@ public class AuthService implements UserDetailsService {
     private UserDetails createUserDetails(Member member) {
         return User.builder()
                    .username(member.getUsername())
-                   .password(passwordEncoder.encode(member.getPassword()))
+                   .password(member.getPassword())
                    .roles(member.getRoles().toArray(String[]::new))
                    .build();
     }
 
     public TokenInfo createToken(String username, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        System.out.println("token : "+authenticationToken);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         return jwtUtil.generateToken(authentication);
     }
