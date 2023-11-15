@@ -1,4 +1,4 @@
-package weteam.backend.common.domain;
+package weteam.backend.config.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

@@ -1,4 +1,4 @@
-package weteam.backend.auth.domain;
+package weteam.backend.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

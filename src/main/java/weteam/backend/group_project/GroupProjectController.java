@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import weteam.backend.group_project.domain.dto.GroupProjectCreate;
+import weteam.backend.group_project.dto.GroupProjectCreate;
 
 @RestController
 @RequestMapping("/api/group-projects")

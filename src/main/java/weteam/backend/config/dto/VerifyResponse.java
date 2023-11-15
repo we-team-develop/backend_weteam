@@ -1,4 +1,4 @@
-package weteam.backend.common.domain.dto;
+package weteam.backend.config.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

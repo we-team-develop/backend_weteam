@@ -3,7 +3,7 @@ package weteam.backend.member;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import weteam.backend.member.domain.Member;
-import weteam.backend.member.domain.dto.MemberJoin;
+import weteam.backend.member.dto.MemberJoin;
 import weteam.backend.member.mapper.MemberMapper;
 
 @SpringBootTest

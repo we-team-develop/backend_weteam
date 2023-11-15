@@ -6,7 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import weteam.backend.common.domain.BaseEntity;
+import weteam.backend.config.domain.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;

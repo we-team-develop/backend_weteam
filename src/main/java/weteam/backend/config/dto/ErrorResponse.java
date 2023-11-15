@@ -1,4 +1,4 @@
-package weteam.backend.common.domain.dto;
+package weteam.backend.config.dto;
 
 
 import lombok.AllArgsConstructor;

@@ -5,8 +5,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weteam.backend.member.domain.Member;
-import weteam.backend.member.domain.dto.MemberJoin;
-import weteam.backend.member.domain.dto.MemberLogin;
+import weteam.backend.member.dto.MemberJoin;
+import weteam.backend.member.dto.MemberLogin;
 import weteam.backend.member.mapper.MemberMapper;
 import weteam.backend.member.repository.MemberRepository;
 

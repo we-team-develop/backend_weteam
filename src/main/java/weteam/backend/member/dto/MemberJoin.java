@@ -1,4 +1,4 @@
-package weteam.backend.member.domain.dto;
+package weteam.backend.member.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -12,12 +12,12 @@ import lombok.Data;
 @Builder
 public class MemberJoin {
     @NotBlank(message = "uid 누락")
-    @Size(min = 5,max = 50)
+    @Size(min = 5,max = 11)
     @Schema(description = "사용자 아이디", nullable = false, example = "test1234")
     private String uid;
 
     @NotBlank(message = "username 누락")
-    @Size(min = 1,max = 50)
+    @Size(min = 1,max = 11)
     @Schema(description = "사용자 이름", nullable = false, example = "홍유진")
     private String username;
 

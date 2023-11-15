@@ -1,4 +1,4 @@
-package weteam.backend.auth;
+package weteam.backend.auth.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -12,7 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import weteam.backend.auth.domain.TokenInfo;
+import weteam.backend.auth.dto.TokenInfo;
 
 import java.security.Key;
 import java.util.Arrays;

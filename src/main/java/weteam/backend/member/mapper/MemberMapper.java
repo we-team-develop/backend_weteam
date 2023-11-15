@@ -6,8 +6,8 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import weteam.backend.member.domain.Member;
-import weteam.backend.member.domain.dto.MemberJoin;
-import weteam.backend.member.domain.dto.MemberResponse;
+import weteam.backend.member.dto.MemberJoin;
+import weteam.backend.member.dto.MemberResponse;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)

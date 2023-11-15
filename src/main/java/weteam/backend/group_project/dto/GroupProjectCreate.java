@@ -1,4 +1,4 @@
-package weteam.backend.group_project.domain.dto;
+package weteam.backend.group_project.dto;
 
 import java.time.LocalDate;
 

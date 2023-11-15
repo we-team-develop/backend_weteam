@@ -13,12 +13,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import weteam.backend.auth.AuthService;
-import weteam.backend.auth.domain.TokenInfo;
-import weteam.backend.common.domain.dto.VerifyResponse;
+import weteam.backend.auth.dto.TokenInfo;
+import weteam.backend.config.dto.VerifyResponse;
 import weteam.backend.member.domain.Member;
-import weteam.backend.member.domain.dto.MemberJoin;
-import weteam.backend.member.domain.dto.MemberLogin;
-import weteam.backend.member.domain.dto.MemberResponse;
+import weteam.backend.member.dto.MemberJoin;
+import weteam.backend.member.dto.MemberLogin;
+import weteam.backend.member.dto.MemberResponse;
 import weteam.backend.member.mapper.MemberMapper;
 
 @RestController
@@ -38,9 +38,7 @@ public class MemberController {
                                     content = @Content(schema = @Schema(implementation = MemberResponse.class)))
                })
     public ResponseEntity<MemberResponse> join(@RequestBody @Valid MemberJoin request) {
-        MemberResponse memberResponse = MemberMapper.instance.toRes(memberService.join(request));
-        System.out.println(2);
-        return ResponseEntity.ok(memberResponse);
+        return ResponseEntity.ok(MemberMapper.instance.toRes(memberService.join(request)));
     }
 
     @PostMapping("/login")

@@ -1,4 +1,4 @@
-package weteam.backend.member.domain.dto;
+package weteam.backend.member.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
