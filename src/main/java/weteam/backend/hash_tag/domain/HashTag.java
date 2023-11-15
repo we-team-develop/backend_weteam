@@ -1,25 +1,27 @@
-package weteam.backend.score.domain;
+package weteam.backend.hash_tag.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import weteam.backend.member.domain.Member;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class Score {
+public class HashTag {
     @Id
-    @OneToOne(fetch = FetchType.LAZY)
-    private Member memberId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
-    private int total;
+    private String name;
 
     @Column(nullable = false)
-    private int count;
+    private int type;
+
+    @Column(nullable = false)
+    private boolean isUse;
 }

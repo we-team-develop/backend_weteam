@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import weteam.backend.config.domain.BaseEntity;
+import weteam.backend.score.domain.Score;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,6 +46,11 @@ public class Member extends BaseEntity implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    @OneToOne(mappedBy = "memberId",cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ToString.Exclude
+    private Score score;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -26,4 +26,10 @@ public class GroupProject extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDate endedAt;
+
+    @Column(nullable = false)
+    private boolean isDone;
+
+    @Column(nullable = false)
+    private String url;
 }
