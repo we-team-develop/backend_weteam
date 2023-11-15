@@ -25,7 +25,7 @@ public class Member extends BaseEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(updatable = false, unique = true, nullable = false)
+    @Column(updatable = false, nullable = false)
     private String uid;
 
     @Column(nullable = false)

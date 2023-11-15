@@ -28,8 +28,11 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/users/join").permitAll()
-                .requestMatchers("/api/users/login").permitAll()
+                .requestMatchers("/api/members/join").permitAll()
+                .requestMatchers("/api/members/login").permitAll()
+                .requestMatchers("/api/members/verify/uid/*").permitAll()
+                .requestMatchers("/api/members/verify/nickname/*").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

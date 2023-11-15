@@ -25,8 +25,8 @@ public class AuthService implements UserDetailsService {
     private final JwtUtil jwtUtil;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return memberRepository.findByUsername(username)
+    public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
+        return memberRepository.findByUid(uid)
                                .map(this::createUserDetails)
                                .orElseThrow(() -> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다."));
     }

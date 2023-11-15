@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import weteam.backend.auth.AuthService;
@@ -22,7 +23,7 @@ import weteam.backend.member.mapper.MemberMapper;
 
 @RestController
 @Validated
-@RequestMapping("/api/users")
+@RequestMapping("/api/members")
 @RequiredArgsConstructor
 @Tag(name = "Member", description = "member API")
 public class MemberController {
@@ -37,12 +38,14 @@ public class MemberController {
                                     content = @Content(schema = @Schema(implementation = MemberResponse.class)))
                })
     public ResponseEntity<MemberResponse> join(@RequestBody @Valid MemberJoin request) {
-        return ResponseEntity.ok(MemberMapper.instance.toRes(memberService.join(request)));
+        MemberResponse memberResponse = MemberMapper.instance.toRes(memberService.join(request));
+        System.out.println(2);
+        return ResponseEntity.ok(memberResponse);
     }
 
     @PostMapping("/login")
     @Operation(summary = "로그인",
-               description = "username, password를 사용한 일반 로그인",
+               description = "uid, password를 사용한 일반 로그인",
                responses = {
                        @ApiResponse(responseCode = "200",
                                     content = @Content(schema = @Schema(implementation = MemberResponse.class)))
@@ -57,11 +60,11 @@ public class MemberController {
                          description = "중복 확인 성공",
                          content = @Content(schema = @Schema(implementation = VerifyResponse.class)))
     })
-    @GetMapping("/verify/username/{username}")
-    public ResponseEntity<VerifyResponse> verifyUsername(@Size(min = 5, max = 50) @PathVariable("username")
-                                                         String username) {
+    @GetMapping("/verify/uid/{uid}")
+    public ResponseEntity<VerifyResponse> verifyUsername(@Size(min = 1, max = 50) @PathVariable("uid")
+                                                         String uid) {
 
-        return ResponseEntity.ok(memberService.verifyUsername(username) ?
+        return ResponseEntity.ok(memberService.verifyUid(uid) ?
                                  VerifyResponse.builder().result(false).message("중복된 아이디입니다.").build() :
                                  VerifyResponse.builder().result(true).message("사용 가능한 아이디입니다.").build());
     }
@@ -72,9 +75,15 @@ public class MemberController {
                          description = "중복 확인 성공",
                          content = @Content(schema = @Schema(implementation = VerifyResponse.class)))
     })
-    public ResponseEntity<VerifyResponse> verifyNickname(@Size(min = 5, max = 50) @PathVariable("nickname") String nickname) {
+    public ResponseEntity<VerifyResponse> verifyNickname(@Size(min = 1, max = 50) @PathVariable("nickname") String nickname) {
         return ResponseEntity.ok(memberService.verifyNickname(nickname) ?
                                  VerifyResponse.builder().result(false).message("중복된 닉네임입니다.").build() :
                                  VerifyResponse.builder().result(true).message("사용 가능한 닉네임입니다.").build());
+    }
+
+    @GetMapping("/test")
+    @PreAuthorize("hasAnyRole('USER')")
+    public String test() {
+        return "test success!!";
     }
 }
