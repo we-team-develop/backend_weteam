@@ -5,22 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
+import weteam.backend.member.domain.Member;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class HashTag {
+public class MemberHashTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private boolean isUse;
 
-    @Comment("test comment")
-    @Column(nullable = false)
-    private int type;
+    @ManyToOne(fetch =  FetchType.LAZY)
+    private Member member;
+
+    @ManyToOne(fetch =  FetchType.LAZY)
+    private HashTag hashTag;
+
 }

@@ -7,12 +7,16 @@ spring:
   jpa:
     # Table 생성 시 ddl-auto 변경
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     show-sql: true
-#    res반환 시 사용되는 json을 객체 형식으로 정렬
+#    defer-datasource-initialization: true
+  #    res반환 시 사용되는 json을 객체 형식으로 정렬
   jackson:
     serialization:
       indent-output: true
+#  sql:
+#    init:
+#      mode: always
 
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
