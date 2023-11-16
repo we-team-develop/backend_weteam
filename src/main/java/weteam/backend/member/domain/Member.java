@@ -38,14 +38,14 @@ public class Member extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
+
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonIgnore
     private MemberImage image;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<String> roles = new ArrayList<>();
 
     @OneToOne(mappedBy = "memberId",cascade = CascadeType.ALL)
     @JsonIgnore

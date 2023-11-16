@@ -5,28 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
+import weteam.backend.member.domain.Member;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class ProjectWork {
+public class GroupMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column( nullable = false)
-    private String name;
+    @Column(nullable = false)
+    private String role;
 
-    @Column( nullable = false)
-    private Date startedAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;
 
-    @Column( nullable = true)
-    private Date endedAt;
-
-    @Column(columnDefinition = "true")
-    private boolean isDone;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private GroupProject groupProject;
 }
