@@ -24,6 +24,6 @@ public class MemberHashtag {
     private Member member;
 
     @ManyToOne(fetch =  FetchType.LAZY)
-    private Hashtag hashTag;
+    private Hashtag hashtag;
 
 }

@@ -39,7 +39,7 @@ public class HashtagController {
     @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<String> saveHashtag(@RequestBody @Valid HashtagDto.create request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        System.out.println(memberId);
-        return ResponseEntity.ok("ss");
+        hashTagService.saveHashtag(request,memberId);
+        return ResponseEntity.ok("저장 완료");
     }
 }
