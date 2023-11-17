@@ -40,8 +40,8 @@ public class AuthService implements UserDetailsService {
                    .build();
     }
 
-    public TokenInfo createToken(String username, String password) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+    public TokenInfo createToken(String uid, String password) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(uid, password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         return jwtUtil.generateToken(authentication);
     }
