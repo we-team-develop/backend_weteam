@@ -5,7 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weteam.backend.auth.AuthService;
-import weteam.backend.auth.dto.TokenInfo;
 import weteam.backend.config.dto.VerifyResponse;
 import weteam.backend.member.domain.Member;
 import weteam.backend.member.dto.MemberDto;
@@ -24,16 +23,20 @@ public class MemberService {
     private final AuthService authService;
 
     public MemberDto.Res join(MemberDto.Join request) {
+        if (findByUid(request.getUid()).isPresent()) {
+//        if (findByUid(request.getUid()).isPresent()||findByNickname(request.getNickname()).isPresent()) {
+            throw new RuntimeException("중복 검사 확인");
+        }
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         Member member = MemberMapper.instance.toEntity(request, hashedPassword, List.of("USER"));
         return MemberMapper.instance.toRes(memberRepository.save(member));
     }
 
     public MemberDto.Res login(MemberDto.Login request) {
-        TokenInfo tokenInfo = authService.createToken(request.getUid(), request.getPassword());
         Member member = findByUid(request.getUid())
                 .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
-        return MemberMapper.instance.toRes(member,tokenInfo);
+        String jwt = authService.createToken(request.getUid(), request.getPassword(), member.getId());
+        return MemberMapper.instance.toRes(member, jwt);
     }
     public Optional<Member> findByUid(String username) {
         return memberRepository.findByUid(username);

@@ -8,10 +8,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import weteam.backend.auth.dto.TokenInfo;
 import weteam.backend.auth.util.JwtUtil;
 import weteam.backend.member.domain.Member;
 import weteam.backend.member.repository.MemberRepository;
@@ -21,7 +21,6 @@ import weteam.backend.member.repository.MemberRepository;
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtUtil jwtUtil;
 
@@ -34,15 +33,16 @@ public class AuthService implements UserDetailsService {
 
     private UserDetails createUserDetails(Member member) {
         return User.builder()
-                   .username(member.getUsername())
+                   .username(member.getId().toString())
                    .password(member.getPassword())
                    .roles(member.getRoles().toArray(String[]::new))
                    .build();
     }
 
-    public TokenInfo createToken(String uid, String password) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(uid, password);
+    public String createToken(String uid, String password, Long memberId) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(uid, password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        return jwtUtil.generateToken(authentication);
+        return jwtUtil.generateToken(authentication, memberId);
     }
 }

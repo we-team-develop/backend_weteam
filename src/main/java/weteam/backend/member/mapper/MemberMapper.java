@@ -5,7 +5,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-import weteam.backend.auth.dto.TokenInfo;
 import weteam.backend.member.domain.Member;
 import weteam.backend.member.dto.MemberDto;
 
@@ -22,7 +21,7 @@ public interface MemberMapper {
     Member toEntity(MemberDto.Join request, String password, List<String> role);
     @Mapping(target = "imageUrl", ignore = true)
     MemberDto.Res toRes(Member member);
-    @Mapping(target = "tokenInfo", source = "tokenInfo")
+    @Mapping(target = "jwt", source = "jwt")
     @Mapping(target = "imageUrl", ignore = true)
-    MemberDto.Res toRes(Member member, TokenInfo tokenInfo);
+    MemberDto.Res toRes(Member member, String jwt);
 }

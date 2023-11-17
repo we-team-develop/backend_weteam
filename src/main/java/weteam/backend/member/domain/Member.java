@@ -1,6 +1,7 @@
 package weteam.backend.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.jsonwebtoken.Claims;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +13,7 @@ import weteam.backend.score.domain.Score;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Entity
@@ -47,7 +49,7 @@ public class Member extends BaseEntity implements UserDetails {
     @JsonIgnore
     private MemberImage image;
 
-    @OneToOne(mappedBy = "memberId",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "memberId", cascade = CascadeType.ALL)
     @JsonIgnore
     @ToString.Exclude
     private Score score;
@@ -57,6 +59,10 @@ public class Member extends BaseEntity implements UserDetails {
         return this.roles.stream()
                          .map(SimpleGrantedAuthority::new)
                          .collect(Collectors.toList());
+    }
+
+    public Member(Claims claims) {
+        this.id = Long.valueOf(claims.get("memberId").toString());
     }
 
     @Override
