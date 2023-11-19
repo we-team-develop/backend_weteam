@@ -9,7 +9,8 @@ import weteam.backend.hash_tag.dto.HashtagDto;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE)
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface HashtagMapper {
     HashtagMapper instance = Mappers.getMapper(HashtagMapper.class);
 
@@ -21,6 +22,7 @@ public interface HashtagMapper {
     @Mapping(target = "type", source = "memberHashtag.hashtag.type")
     HashtagDto.Res toRes(MemberHashtag memberHashtag);
 
+    @Named("E2DL")
     @IterableMapping(qualifiedByName = "E2D")
     List<HashtagDto.Res> toResList(List<MemberHashtag> memberHashtagList);
 

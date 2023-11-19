@@ -5,6 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
+import weteam.backend.hash_tag.domain.MemberHashtag;
+import weteam.backend.hash_tag.dto.HashtagDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MemberDto {
@@ -45,6 +50,9 @@ public class MemberDto {
     @Getter
     @Builder
     public static class Res{
+        @Schema(description = "사용자 pk", nullable = false, example = "12")
+        private Long memberId;
+
         @Schema(description = "사용자 아이디", nullable = false, example = "user1111")
         private String uid;
 
@@ -56,6 +64,9 @@ public class MemberDto {
 
         @Schema(description = "사용자 프로필 사진", nullable = true, example = "image url/asdafasdcsvasdasdasd")
         private String imageUrl;
+
+        @Schema(description = "해시태그 리스트", nullable = true)
+        private List<HashtagDto.Res> hashtagList = new ArrayList<>();
 
         @Schema(description = "jwt", nullable = false)
         private String jwt;

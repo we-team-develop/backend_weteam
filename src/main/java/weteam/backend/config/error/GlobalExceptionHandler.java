@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import weteam.backend.config.dto.ErrorResponse;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    @ExceptionHandler(RuntimeException.class)
-    protected ResponseEntity<?> handleRuntimeException(RuntimeException e) {
-      log.error(String.valueOf(e.getCause()));
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    protected ResponseEntity<?> handleRuntimeException(RuntimeException e) {
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {

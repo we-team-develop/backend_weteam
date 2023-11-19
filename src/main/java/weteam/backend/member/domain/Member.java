@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import weteam.backend.config.domain.BaseEntity;
+import weteam.backend.hash_tag.domain.MemberHashtag;
 import weteam.backend.score.domain.Score;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = true)
@@ -41,6 +42,8 @@ public class Member extends BaseEntity implements UserDetails {
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @JsonIgnore
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
@@ -53,6 +56,10 @@ public class Member extends BaseEntity implements UserDetails {
     @JsonIgnore
     @ToString.Exclude
     private Score score;
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private  List<MemberHashtag> memberHashtagList = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

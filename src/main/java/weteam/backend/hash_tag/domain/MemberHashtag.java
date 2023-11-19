@@ -1,10 +1,7 @@
 package weteam.backend.hash_tag.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import weteam.backend.member.domain.Member;
 
 @Entity
@@ -25,5 +22,4 @@ public class MemberHashtag {
 
     @ManyToOne(fetch =  FetchType.LAZY)
     private Hashtag hashtag;
-
 }

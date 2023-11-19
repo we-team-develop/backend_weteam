@@ -5,11 +5,15 @@ spring:
     username: admin
     password: doctor978!
   jpa:
+
     # Table 생성 시 ddl-auto 변경
     hibernate:
       ddl-auto: validate
-    show-sql: true
     defer-datasource-initialization: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
   #    res반환 시 사용되는 json을 객체 형식으로 정렬
   jackson:
     serialization:
