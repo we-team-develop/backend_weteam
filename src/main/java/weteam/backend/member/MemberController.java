@@ -9,10 +9,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import weteam.backend.auth.AuthService;
 import weteam.backend.config.dto.VerifyResponse;
 import weteam.backend.member.dto.MemberDto;
 
@@ -62,10 +60,5 @@ public class MemberController {
     public ResponseEntity<VerifyResponse> verifyNickname(@Size(min = 1, max = 50)
                                                          @PathVariable("nickname") String nickname) {
         return ResponseEntity.ok(memberService.verifyNickname(nickname));
-    }
-    @GetMapping("/test")
-    @PreAuthorize("hasAnyRole('USER')")
-    public String test() {
-        return "test success!!";
     }
 }

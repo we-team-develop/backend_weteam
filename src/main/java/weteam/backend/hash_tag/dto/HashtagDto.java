@@ -4,14 +4,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HashtagDto {
     @Getter
     @Builder
-    public static class create {
+    public static class Create {
         @NotBlank(message = "name 누락")
         @Schema(description = "해시태그 이름", nullable = false, example = "밤샘인간")
         private String name;
@@ -23,8 +26,17 @@ public class HashtagDto {
     }
     @Getter
     @Builder
+    @ToString
     public static class Res{
+        private Long id;
         private String name;
         private String type;
+        private boolean isUse;
+    }
+
+    @Getter
+    @Builder
+    public static class ResList {
+        private List<Res> resList = new ArrayList<>();
     }
 }

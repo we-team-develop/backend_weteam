@@ -15,10 +15,10 @@ import weteam.backend.group_project.dto.GroupProjectCreate;
 public class GroupProjectController {
     private final GroupProjectService groupProjectService;
 
-        @PostMapping("/create")
-        @Operation(summary = "팀플 생성")
-        @PreAuthorize("hasAnyRole('USER')")
-        public String createProject(@RequestBody @Valid GroupProjectCreate request) {
-            return "sss";
-        }
+//        @PostMapping("/Create")
+//        @Operation(summary = "팀플 생성")
+//        @PreAuthorize("hasAnyRole('USER')")
+//        public String createProject(@RequestBody @Valid GroupProjectCreate request) {
+//            return "sss";
+//        }
 }
