@@ -36,6 +36,7 @@ public class MemberService {
     }
 
     public MemberDto.Res login(MemberDto.Login request) {
+        System.out.println(111);
 //        Member member = findByUid(request.getUid())
 //                .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
         Member member = memberCustomRepository.findMemberWithHashtagList(request.getUid());

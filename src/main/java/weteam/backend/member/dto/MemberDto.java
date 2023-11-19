@@ -51,7 +51,7 @@ public class MemberDto {
     @Builder
     public static class Res{
         @Schema(description = "사용자 pk", nullable = false, example = "12")
-        private Long memberId;
+        private Long id;
 
         @Schema(description = "사용자 아이디", nullable = false, example = "user1111")
         private String uid;
