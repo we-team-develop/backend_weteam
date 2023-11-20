@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import weteam.backend.config.dto.VerifyResponse;
@@ -39,6 +40,7 @@ public class MemberController {
                        @ApiResponse(responseCode = "200",
                                     content = @Content(schema = @Schema(implementation = MemberDto.Res.class)))
                })
+    @Transactional
     public ResponseEntity<MemberDto.Res> login(@RequestBody @Valid MemberDto.Login request) {
         return ResponseEntity.ok(memberService.login(request));
     }

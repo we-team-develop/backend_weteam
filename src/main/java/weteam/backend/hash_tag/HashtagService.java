@@ -25,7 +25,7 @@ public class HashtagService {
     private final MemberHashtagCustomRepository memberHashtagCustomRepository;
     private final MemberService memberService;
 
-    public void saveHashtag(HashtagDto.Create request, Long memberId) {
+    public void createHashtag(HashtagDto.Create request, Long memberId) {
         Optional<Hashtag> data = hashTagRepository.findByName(request.getName());
         Member member = memberService.findById(memberId).orElseThrow(() -> new RuntimeException("사용자가 없습니다"));
 

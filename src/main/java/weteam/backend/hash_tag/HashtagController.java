@@ -36,10 +36,9 @@ public class HashtagController {
                                     content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
                })
     @PreAuthorize("hasAnyRole('USER')")
-    public ResponseEntity<String> saveHashtag(@RequestBody @Valid HashtagDto.Create request, Principal principal) {
+    public void createHashtag(@RequestBody @Valid HashtagDto.Create request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        hashTagService.saveHashtag(request, memberId);
-        return ResponseEntity.ok("저장 완료");
+        hashTagService.createHashtag(request, memberId);
     }
 
     @GetMapping("/{type}")

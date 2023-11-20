@@ -35,10 +35,10 @@ public class MemberService {
     }
 
     public MemberDto.Res login(MemberDto.Login request) {
-        System.out.println(111);
-//        Member member = findByUid(request.getUid())
-//                .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
         Member member = memberCustomRepository.findMemberWithUseHashtagList(request.getUid());
+        if (member == null) {
+            throw new RuntimeException("없는 사용자");
+        }
         String jwt = authService.createToken(request.getUid(), request.getPassword(), member.getId());
         return MemberMapper.instance.toRes(member, jwt);
     }

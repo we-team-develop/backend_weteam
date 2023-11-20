@@ -41,6 +41,8 @@ public class Member extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    private String department;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @ToString.Exclude
     @JsonIgnore
