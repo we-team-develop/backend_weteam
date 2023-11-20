@@ -16,12 +16,10 @@ public class MemberDto {
     @Getter
     @Builder
     public static class Join {
-        @NotBlank(message = "uid 누락")
-        @Size(min = 5, max = 11)
+        @Size(min = 1, max = 11)
         @Schema(description = "사용자 아이디", nullable = false, example = "test1234")
         private String uid;
 
-        @NotBlank(message = "username 누락")
         @Size(min = 1,max = 11)
         @Schema(description = "사용자 이름", nullable = false, example = "홍유진")
         private String username;
@@ -39,11 +37,11 @@ public class MemberDto {
     @Getter
     @Builder
     public static class Login{
-        @NotBlank(message = "uid 누락")
+        @Size(min = 1,max = 11)
         @Schema(description = "사용자 아이디", nullable = false, example = "user11111")
         private String uid;
 
-        @NotBlank(message = "password 누락")
+        @Size(min = 1,max = 11)
         @Schema(description = "사용자 비밀번호", nullable = false, example = "1111")
         private String password;
     }
