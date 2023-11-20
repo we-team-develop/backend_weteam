@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -16,6 +17,7 @@ public class HashtagDto {
     @Builder
     public static class Create {
         @NotBlank(message = "name 누락")
+        @Size(min = 1,max = 11)
         @Schema(description = "해시태그 이름", nullable = false, example = "밤샘인간")
         private String name;
         
