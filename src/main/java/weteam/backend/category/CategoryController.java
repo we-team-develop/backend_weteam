@@ -35,8 +35,7 @@ public class CategoryController {
     @Operation(summary = "카테고리 생성, 반환값 없음 ")
     public void createCategory(@RequestBody @Valid CategoryDto.Create request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        Category category = CategoryMapper.instance.toEntity(request);
-        categoryService.createCategory(category, memberId);
+        categoryService.createCategory(request, memberId);
     }
 
     @GetMapping("/all")

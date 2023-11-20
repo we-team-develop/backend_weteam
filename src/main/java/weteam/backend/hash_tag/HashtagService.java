@@ -27,7 +27,7 @@ public class HashtagService {
 
     public void createHashtag(HashtagDto.Create request, Long memberId) {
         Optional<Hashtag> data = hashTagRepository.findByName(request.getName());
-        Member member = memberService.findById(memberId).orElseThrow(() -> new RuntimeException("사용자가 없습니다"));
+        Member member = memberService.loadMemberById(memberId);
 
         if (data.isEmpty()) {
             Hashtag hashtag = HashtagMapper.instance.toEntity(request);

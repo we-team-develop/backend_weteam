@@ -4,6 +4,7 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import weteam.backend.category.domain.Category;
 import weteam.backend.category.dto.CategoryDto;
+import weteam.backend.member.domain.Member;
 import weteam.backend.member.mapper.MemberMapper;
 
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.List;
 public interface CategoryMapper {
     CategoryMapper instance = Mappers.getMapper(CategoryMapper.class);
 
-    Category toEntity(CategoryDto.Create request);
+    @Mapping(target = "id",ignore = true)
+    @Mapping(target = "member",source = "member")
+    Category toEntity(CategoryDto.Create request, Member member);
 
     @Named("E2D")
     CategoryDto.Res toRes(Category category);

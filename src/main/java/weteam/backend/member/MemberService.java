@@ -53,6 +53,10 @@ public class MemberService {
     public Optional<Member> findById(Long memberId) {
         return memberRepository.findById(memberId);
     }
+
+    public Member loadMemberById(Long id) {
+        return findById(id).orElseThrow(() -> new RuntimeException("없는 사용자"));
+    }
     public VerifyResponse verifyUid(String uid) {
         return this.findByUid(uid).isPresent() ?
                VerifyResponse.builder().result(false).message("중복된 아이디입니다.").build() :
