@@ -18,8 +18,9 @@ public class MemberHashtagCustomRepositoryImpl implements MemberHashtagCustomRep
     @Override
     public List<MemberHashtag> findByMemberIdWithType(Long memberId, int type) {
         return jpaQueryFactory.selectFrom(memberHashtag)
-                       .where(memberHashtag.member.id.eq(memberId),
-                              memberHashtag.hashtag.type.eq(type))
-                       .fetch();
+                              .where(memberHashtag.member.id.eq(memberId),
+                                     memberHashtag.hashtag.type.eq(type),
+                                     memberHashtag.isUse.eq(true))
+                              .fetch();
     }
 }

@@ -16,11 +16,11 @@ import static weteam.backend.member.domain.QMember.member;
 public class MemberCustomRepositoryImpl implements MemberCustomRepository{
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public  Member findMemberWithHashtagList(String uid) {
+    public  Member findMemberWithUseHashtagList(String uid) {
         return jpaQueryFactory.selectFrom(member)
                               .leftJoin(member.memberHashtagList, memberHashtag)
                               .leftJoin(memberHashtag.hashtag, hashtag)
-                              .where(member.uid.eq(uid))
+                              .where(member.uid.eq(uid), memberHashtag.isUse.eq(true))
                               .fetchOne();
     }
 }

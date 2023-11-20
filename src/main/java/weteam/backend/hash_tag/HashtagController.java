@@ -30,7 +30,7 @@ public class HashtagController {
 
     @PostMapping("/save")
     @Operation(summary = "해시태그 생성",
-               description = "name, type을 사용한 해시태그 생성 / jwt 필수",
+               description = "name, type을 사용한 해시태그 생성",
                responses = {
                        @ApiResponse(responseCode = "200",
                                     content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
@@ -38,40 +38,65 @@ public class HashtagController {
     @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<String> saveHashtag(@RequestBody @Valid HashtagDto.Create request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        hashTagService.saveHashtag(request,memberId);
+        hashTagService.saveHashtag(request, memberId);
         return ResponseEntity.ok("저장 완료");
     }
 
     @GetMapping("/{type}")
     @Operation(summary = "해시태그 조회",
-               description = "type을 사용한 해시태그 조회 / jwt 필수",
+               description = "type을 사용한 해시태그 조회",
                responses = {
                        @ApiResponse(responseCode = "200",
                                     content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
                })
     @PreAuthorize("hasAnyRole('USER')")
-    public ResponseEntity <List<HashtagDto.Res>> findByMemberIdWithType(@PathVariable("type") int type,
-                                                                        Principal principal) {
+    public ResponseEntity<List<HashtagDto.Res>> findByMemberIdWithType(@PathVariable("type") int type,
+                                                                       Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
         List<MemberHashtag> memberHashtagList = hashTagService.findByMemberIdWithType(memberId, type);
         return ResponseEntity.ok(HashtagMapper.instance.toResList(memberHashtagList));
     }
 
-    @PatchMapping("/{memberHashtagId}")
+
+    @PatchMapping("/{memberHashtagId}/{type}")
     @PreAuthorize("hasAnyRole('USER')")
-    public ResponseEntity<String> updateHashtagUser(@PathVariable("memberHashtagId") Long memberHashtagId,
-                                                    Principal principal) {
+    @Operation(summary = "해시태그 활성화/비활성화",
+               description = "클릭을 통한 해시태그의 활성화/비활성화 수정 후 타입에 맞는 해시태그 리스트 반환",
+               responses = {
+                       @ApiResponse(responseCode = "200",
+                                    content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
+               })
+    public ResponseEntity<List<HashtagDto.Res>> updateHashtagUser(@PathVariable("memberHashtagId") Long memberHashtagId,
+                                                                  @PathVariable("type") int type,
+                                                                  Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
         hashTagService.updateHashtagUse(memberHashtagId, memberId);
-        return ResponseEntity.ok("success");
+        List<MemberHashtag> memberHashtagList = hashTagService.findByMemberIdWithType(memberId, type);
+        return ResponseEntity.ok(HashtagMapper.instance.toResList(memberHashtagList));
     }
 
-    @DeleteMapping("/{memberHashtagId}")
+    @DeleteMapping("/{memberHashtagId}/{type}")
     @PreAuthorize("hasAnyRole('USER')")
-    public ResponseEntity<String> deleteHashtag(@PathVariable("memberHashtagId") Long memberHashtagId,
-                                                Principal principal) {
+    @Operation(summary = "해시태그 삭제",
+               description = "삭제 후 해당 타입에 맞는 해시태그 리스트 반환",
+               responses = {
+                       @ApiResponse(responseCode = "200",
+                                    content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
+               })
+    public ResponseEntity<List<HashtagDto.Res>> deleteHashtag(@PathVariable("memberHashtagId") Long memberHashtagId,
+                                                              @PathVariable("type") int type,
+                                                              Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
         hashTagService.deleteHashtag(memberHashtagId, memberId);
-        return ResponseEntity.ok("success");
+        List<MemberHashtag> memberHashtagList = hashTagService.findByMemberIdWithType(memberId, type);
+        return ResponseEntity.ok(HashtagMapper.instance.toResList(memberHashtagList));
+    }
+    
+    @DeleteMapping("/all")
+    @PreAuthorize("hasAnyRole('USER')")
+    @Operation(summary = "해시태그 전체 삭제", description = "전체 삭제, 반환값 없음")
+    public void deleteAll(Principal principal) {
+        Long memberId = Long.valueOf(principal.getName());
+        hashTagService.deleteAllByMemberId(memberId);
     }
 }

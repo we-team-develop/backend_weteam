@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weteam.backend.auth.AuthService;
 import weteam.backend.config.dto.VerifyResponse;
-import weteam.backend.hash_tag.HashtagService;
 import weteam.backend.member.domain.Member;
 import weteam.backend.member.dto.MemberDto;
 import weteam.backend.member.mapper.MemberMapper;
@@ -39,7 +38,7 @@ public class MemberService {
         System.out.println(111);
 //        Member member = findByUid(request.getUid())
 //                .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
-        Member member = memberCustomRepository.findMemberWithHashtagList(request.getUid());
+        Member member = memberCustomRepository.findMemberWithUseHashtagList(request.getUid());
         String jwt = authService.createToken(request.getUid(), request.getPassword(), member.getId());
         return MemberMapper.instance.toRes(member, jwt);
     }

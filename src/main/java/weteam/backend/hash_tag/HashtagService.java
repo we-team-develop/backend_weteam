@@ -66,6 +66,10 @@ public class HashtagService {
         memberHashtagRepository.delete(memberHashtag);
     }
 
+    public void deleteAllByMemberId(Long memberId) {
+        memberHashtagRepository.deleteAllByMemberId(memberId);
+    }
+
     public MemberHashtag checkHashtag(Long memberHashtagId, Long memberId) {
         MemberHashtag memberHashtag = memberHashtagRepository.findById(memberHashtagId)
                                                              .orElseThrow(() -> new RuntimeException("없는 해시태그입니다."));

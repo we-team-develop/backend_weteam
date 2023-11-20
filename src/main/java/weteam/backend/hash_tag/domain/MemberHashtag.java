@@ -17,6 +17,8 @@ public class MemberHashtag {
     @Column(nullable = false)
     private boolean isUse;
 
+    private String color;
+
     @ManyToOne(fetch =  FetchType.LAZY)
     private Member member;
 
