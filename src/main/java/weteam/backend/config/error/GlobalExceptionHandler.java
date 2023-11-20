@@ -17,6 +17,7 @@ import java.util.Objects;
 public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     protected ResponseEntity<?> handleRuntimeException(RuntimeException e) {
+        log.error(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 

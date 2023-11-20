@@ -20,8 +20,9 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     public Member findMemberWithUseHashtagList(String uid) {
         return jpaQueryFactory.selectFrom(member)
                               .leftJoin(member.memberHashtagList, memberHashtag)
-                              .on(member.uid.eq(uid), memberHashtag.isUse.eq(true))
+                              .on(memberHashtag.isUse.eq(true))
                               .leftJoin(memberHashtag.hashtag, hashtag)
+                              .where(member.uid.eq(uid))
                               .fetchOne();
     }
 }
