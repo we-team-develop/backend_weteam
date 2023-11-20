@@ -11,6 +11,7 @@ import weteam.backend.member.MemberService;
 import weteam.backend.member.domain.Member;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -46,6 +47,9 @@ public class CategoryService {
 
     public void updateCategory(Long categoryId, CategoryDto request, Long memberId) {
         Category data = loadCategory(categoryId);
+        if (!Objects.equals(data.getMember().getId(), memberId)) {
+            throw new RuntimeException("다른 사용자의 카테고리");
+        }
         Category category = CategoryMapper.instance.toEntity(request, data.getMember());
         category.setId(categoryId);
         categoryRepository.save(category);

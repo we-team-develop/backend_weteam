@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import weteam.backend.category.domain.Category;
 import weteam.backend.member.domain.Member;
 
 import java.util.Date;
@@ -21,16 +20,13 @@ public class MemberSchedule {
     private Long id;
 
     @Column(nullable = false)
-    private String tile;
+    private String title;
 
     @Column(nullable = false)
     private String place;
 
     @Column(nullable = false)
     private String memo;
-
-    @Column(nullable = false)
-    private String description;
 
     @Column(nullable = false)
     private Date startedAt;
@@ -41,9 +37,14 @@ public class MemberSchedule {
     @Column(nullable = false)
     private Date alarm;
 
+//    @Column(name = "repeat_type")
+    private Integer repeatType;
+
+    private String color;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Category category;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Category category;
 }
