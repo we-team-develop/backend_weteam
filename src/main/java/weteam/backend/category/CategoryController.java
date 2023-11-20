@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import weteam.backend.category.domain.Category;
 import weteam.backend.category.dto.CategoryDto;
 import weteam.backend.category.mapper.CategoryMapper;
-import weteam.backend.hash_tag.domain.MemberHashtag;
-import weteam.backend.hash_tag.dto.HashtagDto;
-import weteam.backend.hash_tag.mapper.HashtagMapper;
 
 import java.security.Principal;
 import java.util.List;
@@ -33,11 +30,10 @@ public class CategoryController {
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "카테고리 생성, 반환값 없음 ")
-    public void createCategory(@RequestBody @Valid CategoryDto.Create request, Principal principal) {
+    public void createCategory(@RequestBody @Valid CategoryDto request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
         categoryService.createCategory(request, memberId);
     }
-
     @GetMapping("/all")
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "사용자의 키테고리 전체 조회",
@@ -49,5 +45,15 @@ public class CategoryController {
         Long memberId = Long.valueOf(principal.getName());
         List<Category> categoryList = categoryService.findAllByMemberId(memberId);
         return ResponseEntity.ok(CategoryMapper.instance.toResList(categoryList));
+    }
+
+    @PatchMapping("/update/{categoryId}")
+    @PreAuthorize("hasAnyRole('USER')")
+    @Operation(summary = "카테고리 수정, 반환값 없음")
+    public void updateCategory(@PathVariable("categoryId") Long categoryId,
+                               @RequestBody @Valid CategoryDto request,
+                               Principal principal) {
+        Long memberId = Long.valueOf(principal.getName());
+        categoryService.updateCategory(categoryId, request, memberId);
     }
 }

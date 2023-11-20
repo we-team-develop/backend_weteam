@@ -12,20 +12,18 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Builder
 public class HashtagDto {
-    @Getter
-    @Builder
-    public static class Create {
-        @NotBlank(message = "name 누락")
-        @Size(min = 1,max = 11)
-        @Schema(description = "해시태그 이름", nullable = false, example = "밤샘인간")
-        private String name;
-        
-        @Min(value = 1, message = "type은 1~4")
-        @Max(value = 4, message = "type은 1~4")
-        @Schema(description = "해시태그 타입 1: 희망업무, 2: mbti, 3: 특기, 4: 성격, 5: 기타", nullable = false, example = "1")
-        private int type;
-    }
+    @NotBlank(message = "name 누락")
+    @Size(min = 1,max = 11)
+    @Schema(description = "해시태그 이름", nullable = false, example = "밤샘인간")
+    private String name;
+
+    @Min(value = 1, message = "type은 1~4")
+    @Max(value = 4, message = "type은 1~4")
+    @Schema(description = "해시태그 타입 1: 희망업무, 2: mbti, 3: 특기, 4: 성격, 5: 기타", nullable = false, example = "1")
+    private int type;
     @Getter
     @Builder
     @ToString

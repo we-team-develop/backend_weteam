@@ -44,12 +44,12 @@ public class MemberController {
     public ResponseEntity<MemberDto.Res> login(@RequestBody @Valid MemberDto.Login request) {
         return ResponseEntity.ok(memberService.login(request));
     }
+    @GetMapping("/verify/uid/{uid}")
     @Operation(summary = "아이디 중복 확인", responses = {
             @ApiResponse(responseCode = "200",
                          description = "중복 확인 성공",
                          content = @Content(schema = @Schema(implementation = VerifyResponse.class)))
     })
-    @GetMapping("/verify/uid/{uid}")
     public ResponseEntity<VerifyResponse> verifyUsername(@Size(min = 1, max = 50) @PathVariable("uid") String uid) {
         return ResponseEntity.ok(memberService.verifyUid(uid));
     }

@@ -15,7 +15,7 @@ public interface HashtagMapper {
     HashtagMapper instance = Mappers.getMapper(HashtagMapper.class);
 
 
-    Hashtag toEntity(HashtagDto.Create request);
+    Hashtag toEntity(HashtagDto request);
 
     @Named("E2D")
     @Mapping(target = "name", source = "memberHashtag.hashtag.name")

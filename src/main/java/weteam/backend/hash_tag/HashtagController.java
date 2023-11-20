@@ -36,7 +36,7 @@ public class HashtagController {
                                     content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
                })
     @PreAuthorize("hasAnyRole('USER')")
-    public void createHashtag(@RequestBody @Valid HashtagDto.Create request, Principal principal) {
+    public void createHashtag(@RequestBody @Valid HashtagDto request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
         hashTagService.createHashtag(request, memberId);
     }

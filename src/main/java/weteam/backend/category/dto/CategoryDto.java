@@ -9,18 +9,16 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Builder
 public class CategoryDto {
-    @Getter
-    @Builder
-    public static class Create{
-        @Size(min = 1,max = 8)
-        @Schema(description = "카테고리 이름", nullable = false, example = "UI/UX 디자인")
-        private String name;
+    @Size(min = 1,max = 8)
+    @Schema(description = "카테고리 이름", nullable = false, example = "UI/UX 디자인")
+    private String name;
 
-        @NotBlank
-        @Schema(description = "색상값", nullable = false, example = "#ffffff")
-        private String color;
-    }
+    @NotBlank
+    @Schema(description = "색상값", nullable = false, example = "#ffffff")
+    private String color;
     @Getter
     @Builder
     public static class Res{

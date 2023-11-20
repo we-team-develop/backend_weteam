@@ -16,7 +16,7 @@ public interface CategoryMapper {
 
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "member",source = "member")
-    Category toEntity(CategoryDto.Create request, Member member);
+    Category toEntity(CategoryDto request, Member member);
 
     @Named("E2D")
     CategoryDto.Res toRes(Category category);
