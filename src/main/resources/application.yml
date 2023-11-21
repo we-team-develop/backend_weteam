@@ -1,12 +1,12 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://weteam.cx7t8a9fbboo.ap-northeast-2.rds.amazonaws.com:3306/weteam
+    url: jdbc:mariadb://weteam.cx7t8a9fbboo.ap-northeast-2.rds.amazonaws.com:3306/weteam?serverTimezone=Asia/Seoul
     username: admin
     password: doctor978!
   jpa:
 
-    # Table 생성 시 ddl-auto 변경
+    # Table 생성 시 ddl-auto 변경d
     hibernate:
       ddl-auto: validate
     defer-datasource-initialization: true

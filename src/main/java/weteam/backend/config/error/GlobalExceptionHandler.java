@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
         List< ObjectError> errorList = e.getBindingResult().getAllErrors();
         List<ErrorResponse> errorResponseList = errorList.stream().map(error->{
             return ErrorResponse.builder()
-                                .field(error.getCode())
+                                .field(error.getCodes()[1])
                                 .defaultMessage(error.getDefaultMessage())
                                 .build();
         }).toList();

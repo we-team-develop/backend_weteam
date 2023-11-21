@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import weteam.backend.member.domain.Member;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -24,19 +25,16 @@ public class MemberSchedule {
     private String title;
 
     @Column(nullable = false)
-    private Date startedAt;
+    private LocalDateTime startedAt;
 
-    private Date endedAt;
+    private LocalDateTime endedAt;
 
-    @Column(nullable = false)
     private String place;
 
-    @Column(nullable = false)
-    private Date alarm;
+    private LocalDateTime alarm;
 
     private Integer repeatType;
 
-    @Column(nullable = false)
     private String memo;
 
     private String color;

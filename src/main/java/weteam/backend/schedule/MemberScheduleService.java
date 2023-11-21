@@ -22,4 +22,10 @@ public class MemberScheduleService {
         MemberSchedule memberSchedule = MemberScheduleMapper.instance.toEntity(request, member);
         memberScheduleRepository.save(memberSchedule);
     }
+
+//    public void validate(MemberScheduleDto request) {
+//        if (request.getRepeatType() != null) {
+//
+//        }
+//    }
 }

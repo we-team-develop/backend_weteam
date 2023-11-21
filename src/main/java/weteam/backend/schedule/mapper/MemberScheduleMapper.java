@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.jmx.export.annotation.ManagedOperationParameter;
 import weteam.backend.member.domain.Member;
 import weteam.backend.schedule.domain.MemberSchedule;
 import weteam.backend.schedule.dto.MemberScheduleDto;
@@ -14,6 +15,7 @@ import weteam.backend.schedule.dto.MemberScheduleDto;
 public interface MemberScheduleMapper {
     MemberScheduleMapper instance = Mappers.getMapper(MemberScheduleMapper.class);
 
+    @Mapping(target = "id",ignore = true)
     @Mapping(target = "member", source = "member")
     MemberSchedule toEntity(MemberScheduleDto request, Member member);
 }
