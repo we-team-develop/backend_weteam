@@ -12,8 +12,8 @@ spring:
     defer-datasource-initialization: true
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
+#        show_sql: true
+#        format_sql: true
   #    res반환 시 사용되는 json을 객체 형식으로 정렬
   jackson:
     serialization:
