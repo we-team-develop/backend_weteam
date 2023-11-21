@@ -2,6 +2,7 @@ package weteam.backend.hash_tag.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import weteam.backend.member.domain.Member;
 
 @Entity
@@ -14,7 +15,7 @@ public class MemberHashtag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @ColumnDefault("false")
     private boolean isUse;
 
     private String color;
