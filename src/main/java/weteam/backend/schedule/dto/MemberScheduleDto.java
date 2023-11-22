@@ -69,8 +69,4 @@ public class MemberScheduleDto {
         @Schema(description = "개인 스케줄 색상값", example = "#ffffff")
         private String color;
     }
-
-    public static class ResList{
-        List<MemberScheduleDto.Res> resList = new ArrayList<>();
-    }
 }

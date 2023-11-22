@@ -1,6 +1,7 @@
 package weteam.backend.hash_tag;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,6 +16,7 @@ import weteam.backend.auth.util.JwtUtil;
 import weteam.backend.hash_tag.domain.MemberHashtag;
 import weteam.backend.hash_tag.dto.HashtagDto;
 import weteam.backend.hash_tag.mapper.HashtagMapper;
+import weteam.backend.schedule.dto.MemberScheduleDto;
 
 import java.security.Principal;
 import java.util.List;
@@ -33,7 +35,8 @@ public class HashtagController {
                description = "name, type을 사용한 해시태그 생성",
                responses = {
                        @ApiResponse(responseCode = "200",
-                                    content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
+                                    content = @Content(array = @ArraySchema(schema = @Schema(implementation =
+                                            HashtagDto.Res.class))))
                })
     @PreAuthorize("hasAnyRole('USER')")
     public void createHashtag(@RequestBody @Valid HashtagDto request, Principal principal) {
@@ -44,13 +47,14 @@ public class HashtagController {
     @GetMapping("/{type}")
     @Operation(summary = "해시태그 조회",
                description = "type을 사용한 해시태그 조회",
-               responses = {
-                       @ApiResponse(responseCode = "200",
-                                    content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
+               responses = {@ApiResponse(responseCode = "200",
+                                         content = @Content(array = @ArraySchema(schema = @Schema(implementation =
+                                                 HashtagDto.Res.class))))
                })
     @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<List<HashtagDto.Res>> findByMemberIdWithType(@PathVariable("type") int type,
                                                                        Principal principal) {
+
         Long memberId = Long.valueOf(principal.getName());
         List<MemberHashtag> memberHashtagList = hashTagService.findByMemberIdWithType(memberId, type);
         return ResponseEntity.ok(HashtagMapper.instance.toResList(memberHashtagList));
@@ -61,9 +65,9 @@ public class HashtagController {
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "해시태그 활성화/비활성화",
                description = "클릭을 통한 해시태그의 활성화/비활성화 수정 후 타입에 맞는 해시태그 리스트 반환",
-               responses = {
-                       @ApiResponse(responseCode = "200",
-                                    content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
+               responses = {@ApiResponse(responseCode = "200",
+                                         content = @Content(array = @ArraySchema(schema = @Schema(implementation =
+                                                 HashtagDto.Res.class))))
                })
     public ResponseEntity<List<HashtagDto.Res>> updateHashtagUser(@PathVariable("memberHashtagId") Long memberHashtagId,
                                                                   @PathVariable("type") int type,
@@ -76,12 +80,7 @@ public class HashtagController {
 
     @DeleteMapping("/{memberHashtagId}/{type}")
     @PreAuthorize("hasAnyRole('USER')")
-    @Operation(summary = "해시태그 삭제",
-               description = "삭제 후 해당 타입에 맞는 해시태그 리스트 반환",
-               responses = {
-                       @ApiResponse(responseCode = "200",
-                                    content = @Content(schema = @Schema(implementation = HashtagDto.ResList.class)))
-               })
+    @Operation(summary = "해시태그 삭제/반환값 없음")
     public ResponseEntity<List<HashtagDto.Res>> deleteHashtag(@PathVariable("memberHashtagId") Long memberHashtagId,
                                                               @PathVariable("type") int type,
                                                               Principal principal) {

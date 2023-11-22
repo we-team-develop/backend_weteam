@@ -33,10 +33,4 @@ public class HashtagDto {
         private int type;
         private boolean isUse;
     }
-
-    @Getter
-    @Builder
-    public static class ResList {
-        private List<Res> resList = new ArrayList<>();
-    }
 }

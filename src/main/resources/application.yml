@@ -26,8 +26,8 @@ jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
 
 springdoc:
-
   default-consumes-media-type: application/json
   swagger-ui:
     try-it-out-enabled: false
     path: /swagger
+  use-fqn: true

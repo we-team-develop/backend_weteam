@@ -28,20 +28,20 @@ public class MemberScheduleController {
     private final MemberScheduleService memberScheduleService;
 
     @PostMapping("/create")
-    @Operation(summary = "개인스케줄 생성, 반환값 없음")
     @PreAuthorize("hasAnyRole('USER')")
+    @Operation(summary = "개인스케줄 생성, 반환값 없음")
     public void createMemberSchedule(@RequestBody @Valid MemberScheduleDto request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
         memberScheduleService.createSchedule(request, memberId);
     }
 
-    @GetMapping("/month/{year}/{month}")
+    @GetMapping("/{year}/{month}")
+    @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "월별 스케줄 조회", responses = {
             @ApiResponse(responseCode = "200",
                          content = @Content(array = @ArraySchema(schema = @Schema(implementation =
                                  MemberScheduleDto.Res.class))))
     })
-    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<List<MemberScheduleDto.Res>> findByMonth(@PathVariable("year") int year,
                                                                    @PathVariable("month") int month,
                                                                    Principal principal) {
@@ -52,13 +52,13 @@ public class MemberScheduleController {
         return ResponseEntity.ok(resList);
     }
 
-    @GetMapping("/day/{year}/{month}/{day}")
+    @GetMapping("/{year}/{month}/{day}")
+    @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "일별 스케줄 조회", responses = {
             @ApiResponse(responseCode = "200",
                          content = @Content(array = @ArraySchema(schema = @Schema(implementation =
                                  MemberScheduleDto.Res.class))))
     })
-    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<List<MemberScheduleDto.Res>> findByMonth(@PathVariable("year") int year,
                                                                    @PathVariable("month") int month,
                                                                    @PathVariable("day") int day,
