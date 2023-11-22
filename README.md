@@ -4,7 +4,7 @@
 
 팀플 뿐만 아니라 여행 일정, 연인과의 데이트 일정 관리 및 기록, 개인 다이어리 등의 기록으로 활용할 수 있습니다.
 
----
+## 소개
 
 - 기간 : 2023.11~
 - 작업 인원
@@ -12,20 +12,15 @@
     - 프론트 2명
     - 디자이너 4명
 
----
+## 기술 스택
 
-- 기술 스택
-    
-    
-    | spring boot | 3.0.12 |
-    | --- | --- |
-    | java | 17 |
-    - jpa, queryDSL, mapstruct, swagger
-    - docker, ec2, rds
+| spring boot | 3.0.12 |
+| --- | --- |
+| java | 17 |
+- jpa, queryDSL, mapstruct, swagger
+- docker, ec2, rds
 
----
-
-### 기능목록
+## 기능목록
 
 - 팀플
     - url공유를 통한 팀플 초대
