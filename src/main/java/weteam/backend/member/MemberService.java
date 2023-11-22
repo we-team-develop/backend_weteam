@@ -24,23 +24,22 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
 
-    public MemberDto.Res join(MemberDto.Join request) {
+    public Member join(MemberDto.Join request) {
         if (findByUid(request.getUid()).isPresent()) {
 //        if (findByUid(request.getUid()).isPresent()||findByNickname(request.getNickname()).isPresent()) {
             throw new RuntimeException("중복 검사 확인");
         }
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         Member member = MemberMapper.instance.toEntity(request, hashedPassword, List.of("USER"));
-        return MemberMapper.instance.toRes(memberRepository.save(member));
+        return memberRepository.save(member);
     }
 
-    public MemberDto.Res login(MemberDto.Login request) {
+    public Member login(MemberDto.Login request) {
         Member member = memberCustomRepository.findMemberWithUseHashtagList(request.getUid());
         if (member == null) {
             throw new RuntimeException("없는 사용자");
         }
-        String jwt = authService.createToken(request.getUid(), request.getPassword(), member.getId());
-        return MemberMapper.instance.toRes(member, jwt);
+        return member;
     }
     public Optional<Member> findByUid(String username) {
         return memberRepository.findByUid(username);

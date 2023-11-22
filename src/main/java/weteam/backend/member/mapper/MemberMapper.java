@@ -21,13 +21,16 @@ public interface MemberMapper {
     Member toEntity(MemberDto.Join request, String password, List<String> role);
 
     @Mapping(target = "imageUrl", ignore = true)
-    MemberDto.Res toRes(Member member);
+    MemberDto.LoginRes toLoginRes(Member member);
 
 //    @Mapping(target = "memberId", source = "member.id")
     @Mapping(target = "jwt", source = "jwt")
     @Mapping(target = "imageUrl", ignore = true)
     @Mapping(target = "hashtagList", source = "member.memberHashtagList", qualifiedByName = "setHashtagList")
-    MemberDto.Res toRes(Member member, String jwt);
+    MemberDto.LoginRes toLoginRes(Member member, String jwt);
+
+    @Mapping(target = "jwt", source = "jwt")
+    MemberDto.JoinRes toJoinRes(Member member, String jwt);
 
     @Named("setHashtagList")
     default List<HashtagDto.Res> setHashtagList(List<MemberHashtag> hashtagList) {

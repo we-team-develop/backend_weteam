@@ -9,16 +9,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import weteam.backend.config.dto.ErrorResponse;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     protected ResponseEntity<?> handleRuntimeException(RuntimeException e) {
+        log.error(e.getClass().toString());
         log.error(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
@@ -33,10 +31,7 @@ public class GlobalExceptionHandler {
                                 .build();
         }).toList();
 
-//        log.error(errorList.toString());
         errorList.forEach(error -> log.error(error.toString()));
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponseList);
     }
-
 }

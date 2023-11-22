@@ -90,7 +90,7 @@ public class HashtagController {
         List<MemberHashtag> memberHashtagList = hashTagService.findByMemberIdWithType(memberId, type);
         return ResponseEntity.ok(HashtagMapper.instance.toResList(memberHashtagList));
     }
-    
+
     @DeleteMapping("/all")
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "해시태그 전체 삭제", description = "전체 삭제, 반환값 없음")
