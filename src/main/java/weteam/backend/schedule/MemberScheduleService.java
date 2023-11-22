@@ -23,9 +23,7 @@ public class MemberScheduleService {
         memberScheduleRepository.save(memberSchedule);
     }
 
-//    public void validate(MemberScheduleDto request) {
-//        if (request.getRepeatType() != null) {
-//
-//        }
-//    }
+    public void findByMonth(Long memberId, int month) {
+
+    }
 }
