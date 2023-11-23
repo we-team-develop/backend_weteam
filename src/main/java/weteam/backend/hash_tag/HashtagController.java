@@ -31,13 +31,7 @@ public class HashtagController {
 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('USER')")
-    @Operation(summary = "해시태그 생성",
-               description = "name, type을 사용한 해시태그 생성",
-               responses = {
-                       @ApiResponse(responseCode = "200",
-                                    content = @Content(array = @ArraySchema(schema = @Schema(implementation =
-                                            HashtagDto.Res.class))))
-               })
+    @Operation(summary = "해시태그 생성 / 반환값 없음")
     public void create(@RequestBody @Valid HashtagDto request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
         hashTagService.create(request, memberId);
@@ -62,12 +56,7 @@ public class HashtagController {
 
     @PatchMapping("/{memberHashtagId}/{type}")
     @PreAuthorize("hasAnyRole('USER')")
-    @Operation(summary = "해시태그 활성화/비활성화, 반환값 업음",
-               description = "클릭을 통한 해시태그의 활성화/비활성화 수정 후 타입에 맞는 해시태그 리스트 반환",
-               responses = {@ApiResponse(responseCode = "200",
-                                         content = @Content(array = @ArraySchema(schema = @Schema(implementation =
-                                                 HashtagDto.Res.class))))
-               })
+    @Operation(summary = "해시태그 활성화/비활성화, 반환값 업음")
     public void updateUse(@PathVariable("memberHashtagId") Long memberHashtagId,
                                                                   @PathVariable("type") int type,
                                                                   Principal principal) {

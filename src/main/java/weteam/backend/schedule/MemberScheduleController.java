@@ -29,7 +29,7 @@ public class MemberScheduleController {
 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('USER')")
-    @Operation(summary = "개인스케줄 생성, 반환값 없음")
+    @Operation(summary = "개인스케줄 생성 / 반환값 없음")
     public void create(@RequestBody @Valid MemberScheduleDto request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
         memberScheduleService.create(request, memberId);
@@ -75,8 +75,7 @@ public class MemberScheduleController {
             @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation =
                     MemberScheduleDto.Res.class)))
     })
-    public ResponseEntity<MemberScheduleDto.Res> loadById(@PathVariable("id") Long id,
-                                                          Principal principal) {
+    public ResponseEntity<MemberScheduleDto.Res> loadById(@PathVariable("id") Long id, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
         MemberSchedule memberScheduleList = memberScheduleService.loadById(id, memberId);
         MemberScheduleDto.Res res = MemberScheduleMapper.instance.toRes(memberScheduleList);
@@ -85,11 +84,27 @@ public class MemberScheduleController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER')")
-    @Operation(summary = "스케줄 수정")
+    @Operation(summary = "스케줄 수정 / 반환값 없음")
     public void update(@PathVariable("id") Long id,
-                                     @RequestBody @Valid MemberScheduleDto request,
-                                     Principal principal) {
+                       @RequestBody @Valid MemberScheduleDto request,
+                       Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        memberScheduleService.update(request, memberId);
+        memberScheduleService.update(request, id, memberId);
+    }
+
+    @PatchMapping("/{id}/done")
+    @PreAuthorize("hasAnyRole('USER')")
+    @Operation(summary = "스케줄 완료 처리 / 반환값 없음")
+    public void update(@PathVariable("id") Long id, Principal principal) {
+        Long memberId = Long.valueOf(principal.getName());
+        memberScheduleService.updateIsDone(id, memberId);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER')")
+    @Operation(summary = "스케줄 삭제 / 반환값 없음")
+    public void delete(@PathVariable("id") Long id, Principal principal) {
+        Long memberId = Long.valueOf(principal.getName());
+        memberScheduleService.delete(id, memberId);
     }
 }

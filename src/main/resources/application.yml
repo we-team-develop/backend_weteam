@@ -30,4 +30,5 @@ springdoc:
   swagger-ui:
     try-it-out-enabled: false
     path: /swagger
+    operations-sorter: method
   use-fqn: true

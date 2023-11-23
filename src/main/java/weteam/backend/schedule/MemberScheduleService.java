@@ -24,21 +24,21 @@ public class MemberScheduleService {
     private final MemberScheduleCustomRepository memberScheduleCustomRepository;
     private final MemberService memberService;
 
-    public void createSchedule(MemberScheduleDto request, Long memberId) {
-        Member member = memberService.loadMemberById(memberId);
+    public void create(MemberScheduleDto request, Long memberId) {
+        Member member = memberService.loadById(memberId);
         MemberSchedule memberSchedule = MemberScheduleMapper.instance.toEntity(request, member);
         memberScheduleRepository.save(memberSchedule);
     }
 
     public  List<MemberSchedule> findByMonth(int year, int month, Long memberId) {
-        Member member = memberService.loadMemberById(memberId);
+        Member member = memberService.loadById(memberId);
         LocalDateTime startDate = LocalDate.of(year, month, 1).atStartOfDay();
         LocalDateTime endDate = startDate.plusMonths(1).minusMinutes(1);
         return memberScheduleCustomRepository.findByMonth(startDate, endDate, memberId);
     }
 
     public List<MemberSchedule> findByDay(int year, int month, int day, Long memberId) {
-        Member member = memberService.loadMemberById(memberId);
+        Member member = memberService.loadById(memberId);
         LocalDateTime startDate = LocalDate.of(year, month, day).atStartOfDay();
         LocalDateTime endDate = startDate.plusDays(1).minusMinutes(1);
         return memberScheduleCustomRepository.findByDate(startDate, endDate, memberId);
@@ -48,11 +48,31 @@ public class MemberScheduleService {
         return memberScheduleRepository.findById(id);
     }
 
-    public MemberSchedule loadMemberSchedule(Long id) {
+    public MemberSchedule loadById(Long id, Long memberId) {
         MemberSchedule memberSchedule = findById(id).orElseThrow(() -> new RuntimeException("없는 스케줄"));
-        if (!memberSchedule.getMember().getId().equals(id)) {
+        if (!memberSchedule.getMember().getId().equals(memberId)) {
             throw new RuntimeException("다른 사용자의 스케줄");
         }
         return memberSchedule;
+    }
+
+    public void update(MemberScheduleDto request, Long id, Long memberId) {
+        Member member = memberService.loadById(memberId);
+        MemberSchedule memberSchedule = MemberScheduleMapper.instance.toEntity(request, member);
+        if (!memberSchedule.getMember().getId().equals(memberId)) {
+            throw new RuntimeException("다른 사용자의 스케줄");
+        }
+        memberScheduleRepository.save(memberSchedule);
+    }
+
+    public void updateIsDone(Long id, Long memberId) {
+        MemberSchedule memberSchedule = loadById(id, memberId);
+        memberSchedule.setDone(!memberSchedule.isDone());
+        memberScheduleRepository.save(memberSchedule);
+    }
+
+    public void delete(Long id, Long memberId) {
+        MemberSchedule memberSchedule = loadById(id, memberId);
+        memberScheduleRepository.delete(memberSchedule);
     }
 }
