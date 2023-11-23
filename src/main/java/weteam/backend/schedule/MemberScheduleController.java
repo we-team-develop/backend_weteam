@@ -27,12 +27,12 @@ import java.util.List;
 public class MemberScheduleController {
     private final MemberScheduleService memberScheduleService;
 
-    @PostMapping("/create")
+    @PostMapping("")
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "개인스케줄 생성, 반환값 없음")
-    public void createMemberSchedule(@RequestBody @Valid MemberScheduleDto request, Principal principal) {
+    public void create(@RequestBody @Valid MemberScheduleDto request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        memberScheduleService.createSchedule(request, memberId);
+        memberScheduleService.create(request, memberId);
     }
 
     @GetMapping("/{year}/{month}")
@@ -75,11 +75,21 @@ public class MemberScheduleController {
             @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation =
                     MemberScheduleDto.Res.class)))
     })
-    public ResponseEntity<MemberScheduleDto.Res> loadMemberSchedule(@PathVariable("id") Long id,
+    public ResponseEntity<MemberScheduleDto.Res> loadById(@PathVariable("id") Long id,
                                                           Principal principal) {
-
-        MemberSchedule memberScheduleList = memberScheduleService.loadMemberSchedule(id);
+        Long memberId = Long.valueOf(principal.getName());
+        MemberSchedule memberScheduleList = memberScheduleService.loadById(id, memberId);
         MemberScheduleDto.Res res = MemberScheduleMapper.instance.toRes(memberScheduleList);
         return ResponseEntity.ok(res);
+    }
+
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER')")
+    @Operation(summary = "스케줄 수정")
+    public void update(@PathVariable("id") Long id,
+                                     @RequestBody @Valid MemberScheduleDto request,
+                                     Principal principal) {
+        Long memberId = Long.valueOf(principal.getName());
+        memberScheduleService.update(request, memberId);
     }
 }

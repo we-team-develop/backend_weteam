@@ -22,7 +22,7 @@ public class CategoryService {
     private final MemberService memberService;
 
     public void createCategory(CategoryDto request, Long memberId) {
-        Member member = memberService.loadMemberById(memberId);
+        Member member = memberService.loadById(memberId);
         Category category = CategoryMapper.instance.toEntity(request, member);
 
         if (findByName(request.getName()).isPresent()) {

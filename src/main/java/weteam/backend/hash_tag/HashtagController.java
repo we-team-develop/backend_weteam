@@ -16,7 +16,6 @@ import weteam.backend.auth.util.JwtUtil;
 import weteam.backend.hash_tag.domain.MemberHashtag;
 import weteam.backend.hash_tag.dto.HashtagDto;
 import weteam.backend.hash_tag.mapper.HashtagMapper;
-import weteam.backend.schedule.dto.MemberScheduleDto;
 
 import java.security.Principal;
 import java.util.List;
@@ -30,7 +29,8 @@ public class HashtagController {
     private final HashtagService hashTagService;
     private final JwtUtil jwtUtil;
 
-    @PostMapping("/save")
+    @PostMapping("")
+    @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "해시태그 생성",
                description = "name, type을 사용한 해시태그 생성",
                responses = {
@@ -38,20 +38,19 @@ public class HashtagController {
                                     content = @Content(array = @ArraySchema(schema = @Schema(implementation =
                                             HashtagDto.Res.class))))
                })
-    @PreAuthorize("hasAnyRole('USER')")
-    public void createHashtag(@RequestBody @Valid HashtagDto request, Principal principal) {
+    public void create(@RequestBody @Valid HashtagDto request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        hashTagService.createHashtag(request, memberId);
+        hashTagService.create(request, memberId);
     }
 
     @GetMapping("/{type}")
+    @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "해시태그 조회",
                description = "type을 사용한 해시태그 조회",
                responses = {@ApiResponse(responseCode = "200",
                                          content = @Content(array = @ArraySchema(schema = @Schema(implementation =
                                                  HashtagDto.Res.class))))
                })
-    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<List<HashtagDto.Res>> findByMemberIdWithType(@PathVariable("type") int type,
                                                                        Principal principal) {
 
@@ -69,21 +68,21 @@ public class HashtagController {
                                          content = @Content(array = @ArraySchema(schema = @Schema(implementation =
                                                  HashtagDto.Res.class))))
                })
-    public void updateHashtagUser(@PathVariable("memberHashtagId") Long memberHashtagId,
+    public void updateUse(@PathVariable("memberHashtagId") Long memberHashtagId,
                                                                   @PathVariable("type") int type,
                                                                   Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        hashTagService.updateHashtagUse(memberHashtagId, memberId);
+        hashTagService.updateUse(memberHashtagId, memberId);
     }
 
     @DeleteMapping("/{memberHashtagId}/{type}")
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "해시태그 삭제/반환값 없음")
-    public void deleteHashtag(@PathVariable("memberHashtagId") Long memberHashtagId,
-                                                              @PathVariable("type") int type,
-                                                              Principal principal) {
+    public void delete(@PathVariable("memberHashtagId") Long memberHashtagId,
+                       @PathVariable("type") int type,
+                       Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        hashTagService.deleteHashtag(memberHashtagId, memberId);
+        hashTagService.delete(memberHashtagId, memberId);
     }
 
     @DeleteMapping("/all")

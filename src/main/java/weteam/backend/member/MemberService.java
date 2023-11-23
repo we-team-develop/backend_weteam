@@ -53,7 +53,7 @@ public class MemberService {
         return memberRepository.findById(memberId);
     }
 
-    public Member loadMemberById(Long id) {
+    public Member loadById(Long id) {
         return findById(id).orElseThrow(() -> new RuntimeException("없는 사용자"));
     }
     public VerifyResponse verifyUid(String uid) {
