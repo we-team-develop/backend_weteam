@@ -18,19 +18,13 @@ import java.util.List;
 @ToString(callSuper = true)
 public class Member extends BaseEntity{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String username;
-
-    @Column(nullable = false)
-    private String nickname;
+    private String username, nickname;
 
     private String organization;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
-    private Auth auth;
 
     @OneToMany(mappedBy = "member")
     @ToString.Exclude

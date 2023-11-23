@@ -12,7 +12,7 @@
 //import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.validation.annotation.Validated;
 //import org.springframework.web.bind.annotation.*;
-//import weteam.backend.auth.util.JwtUtil;
+//import weteam.backend.util.security.JwtUtil;
 //import weteam.backend.hash_tag.domain.MemberHashtag;
 //import weteam.backend.hash_tag.dto.HashtagDto;
 //import weteam.backend.hash_tag.mapper.HashtagMapper;

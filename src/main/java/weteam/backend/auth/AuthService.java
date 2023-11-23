@@ -1,47 +1,56 @@
 package weteam.backend.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weteam.backend.auth.domain.Auth;
-import weteam.backend.auth.util.JwtUtil;
+import weteam.backend.auth.dto.AuthDto;
+import weteam.backend.auth.mapper.AuthMapper;
+import weteam.backend.auth.repository.AuthRepository;
+import weteam.backend.config.dto.ApiResponse;
+import weteam.backend.member.MemberService;
 import weteam.backend.member.domain.Member;
-import weteam.backend.member.repository.MemberRepository;
+import weteam.backend.member.mapper.MemberMapper;
+
+import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AuthService implements UserDetailsService {
-    private final MemberRepository memberRepository;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final JwtUtil jwtUtil;
+public class AuthService {
+    private final AuthRepository authRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final MemberService memberService;
 
-    @Override
-    public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
-        return memberRepository.findByUid(uid)
-                               .map(this::createUserDetails)
-                               .orElseThrow(() -> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다."));
+    public Optional<Auth> findById(Long id) {
+        return authRepository.findById(id);
     }
 
-    private UserDetails createUserDetails(Auth auth) {
-        return User.builder()
-                   .username(auth.getId().toString())
-                   .password(auth.getPassword())
-                   .roles(auth.getRoles().toArray(String[]::new))
-                   .build();
+    public void join(AuthDto.Join request) {
+        Member entity = MemberMapper.instance.extractMember(request);
+        Member member = memberService.create(entity);
+
+        //Todo : test method
+        Optional<Auth> data = authRepository.findByUid(request.getUid());
+        if (data.isPresent()) {
+            throw new RuntimeException("사용자 uid 중복");
+        }
+
+        String hashedPassword = passwordEncoder.encode(request.getPassword());
+        Auth auth = AuthMapper.instance.toEntity(request,hashedPassword, member);
+
+        authRepository.save(auth);
     }
 
-    public String createToken(String uid, String password, Long memberId) {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(uid, password);
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        return jwtUtil.generateToken(authentication, memberId);
+    public ApiResponse verifyUid(String uid) {
+        return authRepository.findByUid(uid).isPresent() ?
+               ApiResponse.builder().result(false).message("중복된 아이디입니다.").build() :
+               ApiResponse.builder().result(true).message("사용 가능한 아이디입니다.").build();
+    }
+    public ApiResponse verifyNickname(String nickname) {
+        return memberService.findByNickname(nickname).isPresent() ?
+               ApiResponse.builder().result(false).message("중복된 닉네임입니다.").build() :
+               ApiResponse.builder().result(true).message("사용 가능한 닉네임입니다.").build();
     }
 }

@@ -1,4 +1,4 @@
-package weteam.backend.auth.util;
+package weteam.backend.security.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -36,7 +36,6 @@ public class JwtUtil {
                                            .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-
         Date accessTokenExpiresIn = new Date(now + 60 * 24 * 1000);
         return Jwts.builder()
                    .setSubject(authentication.getName())
