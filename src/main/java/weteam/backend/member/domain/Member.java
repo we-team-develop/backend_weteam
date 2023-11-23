@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import weteam.backend.auth.domain.Auth;
 import weteam.backend.config.domain.BaseEntity;
 import weteam.backend.hash_tag.domain.MemberHashtag;
 import weteam.backend.score.domain.Score;
@@ -26,7 +27,6 @@ import java.util.stream.Collectors;
 @ToString(callSuper = true)
 public class Member extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -35,19 +35,11 @@ public class Member extends BaseEntity{
     @Column(nullable = false)
     private String nickname;
 
-    private String department;
+    private String organization;
 
-
-
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @JsonIgnore
-    private MemberImage image;
-
-    @OneToOne(mappedBy = "memberId", cascade = CascadeType.ALL)
-    @JsonIgnore
-    @ToString.Exclude
-    private Score score;
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    private Auth auth;
 
     @OneToMany(mappedBy = "member")
     @ToString.Exclude

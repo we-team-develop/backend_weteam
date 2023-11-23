@@ -1,5 +1,6 @@
 package weteam.backend.member.dto;
 
+import com.fasterxml.jackson.dataformat.yaml.util.StringQuotingChecker;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -65,13 +66,15 @@ public class MemberDto {
         @Schema(description = "사용자 프로필 사진", nullable = true, example = "image url/asdafasdcsvasdasdasd")
         private String imageUrl;
 
+        @Schema(description = "사용자 속", nullable = true, example = "인덕대학교")
+        private String organization;
+
         @Schema(description = "해시태그 리스트", nullable = true)
         private List<HashtagDto.Res> hashtagList = new ArrayList<>();
 
         @Schema(description = "jwt", nullable = false)
         private String jwt;
     }
-
     @Getter
     @Builder
     public static class JoinRes{

@@ -16,14 +16,11 @@ public interface MemberMapper {
     MemberMapper instance = Mappers.getMapper(MemberMapper.class);
 
     @Mapping(target = "image", ignore = true)
-    @Mapping(target = "roles", source = "role")
-    @Mapping(target = "password", source = "password")
-    Member toEntity(MemberDto.Join request, String password, List<String> role);
+    Member toEntity(MemberDto.Join request);
 
     @Mapping(target = "imageUrl", ignore = true)
     MemberDto.LoginRes toLoginRes(Member member);
 
-//    @Mapping(target = "memberId", source = "member.id")
     @Mapping(target = "jwt", source = "jwt")
     @Mapping(target = "imageUrl", ignore = true)
     @Mapping(target = "hashtagList", source = "member.memberHashtagList", qualifiedByName = "setHashtagList")
