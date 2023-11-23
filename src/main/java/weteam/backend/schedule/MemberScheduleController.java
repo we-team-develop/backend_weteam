@@ -68,4 +68,18 @@ public class MemberScheduleController {
         List<MemberScheduleDto.Res> resList = MemberScheduleMapper.instance.toResList(memberScheduleList);
         return ResponseEntity.ok(resList);
     }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER')")
+    @Operation(summary = "id에 맞는 스케줄 조회", responses = {
+            @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation =
+                    MemberScheduleDto.Res.class)))
+    })
+    public ResponseEntity<MemberScheduleDto.Res> loadMemberSchedule(@PathVariable("id") Long id,
+                                                          Principal principal) {
+
+        MemberSchedule memberScheduleList = memberScheduleService.loadMemberSchedule(id);
+        MemberScheduleDto.Res res = MemberScheduleMapper.instance.toRes(memberScheduleList);
+        return ResponseEntity.ok(res);
+    }
 }

@@ -14,6 +14,7 @@ import weteam.backend.schedule.repository.MemberScheduleRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -41,5 +42,17 @@ public class MemberScheduleService {
         LocalDateTime startDate = LocalDate.of(year, month, day).atStartOfDay();
         LocalDateTime endDate = startDate.plusDays(1).minusMinutes(1);
         return memberScheduleCustomRepository.findByDate(startDate, endDate, memberId);
+    }
+
+    public Optional<MemberSchedule> findById(Long id) {
+        return memberScheduleRepository.findById(id);
+    }
+
+    public MemberSchedule loadMemberSchedule(Long id) {
+        MemberSchedule memberSchedule = findById(id).orElseThrow(() -> new RuntimeException("없는 스케줄"));
+        if (!memberSchedule.getMember().getId().equals(id)) {
+            throw new RuntimeException("다른 사용자의 스케줄");
+        }
+        return memberSchedule;
     }
 }
