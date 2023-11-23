@@ -24,13 +24,10 @@ import java.util.stream.Collectors;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class Member extends BaseEntity implements UserDetails {
+public class Member extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(updatable = false, nullable = false)
-    private String uid;
 
     @Column(nullable = false)
     private String username;
@@ -38,16 +35,9 @@ public class Member extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
-    private String password;
-
     private String department;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @ToString.Exclude
-    @JsonIgnore
-    @Builder.Default
-    private List<String> roles = new ArrayList<>();
+
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     @ToString.Exclude
@@ -62,45 +52,4 @@ public class Member extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     private  List<MemberHashtag> memberHashtagList = new ArrayList<>();
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                         .map(SimpleGrantedAuthority::new)
-                         .collect(Collectors.toList());
-    }
-
-    public Member(Claims claims) {
-        this.id = Long.valueOf(claims.get("memberId").toString());
-    }
-
-    @Override
-    public String getUsername() {
-        return uid;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
