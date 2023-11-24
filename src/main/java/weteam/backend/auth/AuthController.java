@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,53 +32,67 @@ public class AuthController {
 
     @PostMapping("/join")
     @Operation(summary = "회원가입", responses = {
-            @ApiResponse(responseCode = "200",
-                         content = @Content(schema = @Schema(type = "string", example = "회원가입 성공"))),
+            @ApiResponse(responseCode = "200", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400",
                          content = @Content(schema = @Schema(type = "string", example = "사용자 uid 중복")))
     })
-    public ResponseEntity<?> join(@RequestBody @Valid AuthDto.Join request) {
+    public ResponseEntity<Message<?>> join(@RequestBody @Valid AuthDto.Join request) {
         authService.join(request);
-        return ResponseEntity.ok("회원가입 성공");
+        Message<?> message = Message.builder()
+                                 .result(true)
+                                 .httpStatus(HttpStatus.OK)
+                                 .message("회원가입 성공")
+                                 .build();
+        return ResponseEntity.ok(message);
     }
 
     @PostMapping("/login")
     @Operation(summary = "로그인", responses = {
             @ApiResponse(responseCode = "200",
-                         content = @Content(schema = @Schema(type = "string", example = "eyJhbGciJI..."))),
+                         content = @Content(schema = @Schema(type = "string", example = "jwt code"))),
             @ApiResponse(responseCode = "400",
                          content = @Content(schema = @Schema(type = "string", example = "자격 증명에 실패했습니다")))
 
     })
     public ResponseEntity<String> login(@RequestBody @Valid AuthDto.Login request) {
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(request.getUid(), request.getPassword());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        String jwt =jwtUtil.generateToken(authentication);
+        String jwt = jwtUtil.generateToken(authentication);
         return ResponseEntity.ok(jwt);
     }
 
     @GetMapping("/verify/uid/{uid}")
     @Operation(summary = "아이디 중복확인", responses = {
-            @ApiResponse(responseCode = "200",
-                         content = @Content(schema = @Schema(implementation = Message.class))),
+            @ApiResponse(responseCode = "200", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400",
                          content = @Content(schema = @Schema(type = "string", example = "중복된 아이디")))
     })
-    public ResponseEntity<Message> verifyUid(@PathVariable("uid") String uid) {
-        String message = authService.verifyUid(uid);
-        return ResponseEntity.ok(Message.of(message));
+    public ResponseEntity<Message<?>> verifyUid(@PathVariable("uid") String uid) {
+
+        authService.verifyUid(uid);
+        Message<?> message = Message.builder()
+                                    .result(true)
+                                    .httpStatus(HttpStatus.OK)
+                                    .message("사용 가능한 아이디")
+                                    .build();
+        return ResponseEntity.ok(message);
     }
 
     @GetMapping("/verify/nickname/{nickname}")
     @Operation(summary = "닉네임 중복확인", responses = {
-            @ApiResponse(responseCode = "200",
-                         content = @Content(schema = @Schema(implementation = Message.class))),
+            @ApiResponse(responseCode = "200", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400",
                          content = @Content(schema = @Schema(type = "string", example = "중복된 닉네임")))
     })
-    public ResponseEntity<Message> verifyNickname(@PathVariable("nickname") String nickname) {
-        String message = authService.verifyNickname(nickname);
-        return ResponseEntity.ok(Message.of(message));
+    public ResponseEntity<Message<?>> verifyNickname(@PathVariable("nickname") String nickname) {
+        authService.verifyNickname(nickname);
+        Message<?> message = Message.builder()
+                                    .result(true)
+                                    .httpStatus(HttpStatus.OK)
+                                    .message("사용 가능한 닉네임")
+                                    .build();
+        return ResponseEntity.ok(message);
     }
 }

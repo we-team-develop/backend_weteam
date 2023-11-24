@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -34,28 +35,36 @@ public class MemberController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER')")
-    @Operation(summary = "다른 사용자 조회",responses = {
-            @ApiResponse(responseCode = "200",
-                         content = @Content(schema = @Schema(implementation = MemberDto.Res.class))),
+    @Operation(summary = "다른 사용자 조회", responses = {
+            @ApiResponse(responseCode = "200", useReturnTypeSchema = true)
     })
-    public ResponseEntity<Message> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<Message<MemberDto.Res>> findById(@PathVariable("id") Long id) {
         Member member = memberService.findMyInfoWithUseHashtag(id);
         MemberDto.Res res = MemberMapper.instance.toRes(member);
-
-        return ResponseEntity.ok(Message.of("내 정보 조회 성공", res));
+        Message<MemberDto.Res> message = Message.<MemberDto.Res>builder()
+                                                .result(true)
+                                                .httpStatus(HttpStatus.OK)
+                                                .message("다른 사용자 정보 조회 성공")
+                                                .data(res)
+                                                .build();
+        return ResponseEntity.ok(message);
     }
     
     @GetMapping("")
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "내 정보 조회",responses = {
-            @ApiResponse(responseCode = "200",
-                         content = @Content(schema = @Schema(implementation = MemberDto.Res.class))),
+            @ApiResponse(responseCode = "200",useReturnTypeSchema = true)
     })
-    public ResponseEntity<Message> findMyInfo() {
+    public ResponseEntity<Message<MemberDto.Res>> findMyInfo() {
         Long memberId = SecurityUtil.getCurrentMemberId();
         Member member = memberService.findMyInfoWithUseHashtag(memberId);
         MemberDto.Res res = MemberMapper.instance.toRes(member);
-
-        return ResponseEntity.ok(Message.of("내 정보 조회 성공", res));
+        Message<MemberDto.Res> message = Message.<MemberDto.Res>builder()
+                                                .result(true)
+                                                .httpStatus(HttpStatus.OK)
+                                                .message("내 정보 조회 성공")
+                                                .data(res)
+                                                .build();
+        return ResponseEntity.ok(message);
     }
 }

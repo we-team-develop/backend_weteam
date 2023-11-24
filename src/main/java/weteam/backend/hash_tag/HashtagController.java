@@ -40,13 +40,9 @@ public class HashtagController {
     @GetMapping("/{type}")
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "해시태그 조회",
-               description = "type을 사용한 해시태그 조회",
-               responses = {@ApiResponse(responseCode = "200",
-                                         content = @Content(array = @ArraySchema(schema = @Schema(implementation =
-                                                 HashtagDto.Res.class))))
+               responses = {@ApiResponse(responseCode = "200", useReturnTypeSchema = true)
                })
     public ResponseEntity<List<HashtagDto.Res>> findByMemberIdWithType(@PathVariable("type") int type) {
-
         Long memberId = SecurityUtil.getCurrentMemberId();
         List<MemberHashtag> memberHashtagList = hashTagService.findByMemberIdWithType(memberId, type);
         return ResponseEntity.ok(HashtagMapper.instance.toResList(memberHashtagList));

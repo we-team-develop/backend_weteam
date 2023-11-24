@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @Builder
-public class Message{
+public class Message<T>{
     @Schema(description = "요청 결과", nullable = false, example = "true")
     private boolean result;
 
@@ -17,13 +17,13 @@ public class Message{
     private String message;
 
     @Schema(description = "데이터")
-    private Object data;
+    private T data;
 
-    public static Message of(String message) {
-        return new Message(true, HttpStatus.OK, message, null);
-    }
-
-    public static Message of(String message, Object data) {
-        return new Message(true, HttpStatus.OK, message, data);
-    }
+//    public static Message of(String message) {
+//        return new Message(true, HttpStatus.OK, message, null);
+//    }
+//
+//    public static Message of(String message, Object data) {
+//        return new Message(true, HttpStatus.OK, message, data);
+//    }
 }

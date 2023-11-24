@@ -42,17 +42,15 @@ public class AuthService {
         authRepository.save(auth);
     }
 
-    public String verifyUid(String uid) {
+    public void verifyUid(String uid) {
         if (authRepository.findByUid(uid).isPresent()) {
             throw new RuntimeException("중복된 아이디");
         }
-        return "사용 가능한 아이디";
     }
 
-    public String verifyNickname(String nickname) {
+    public void verifyNickname(String nickname) {
         if (memberService.findByNickname(nickname).isPresent()) {
             throw new RuntimeException("중복된 닉네임");
         }
-        return "사용 가능한 닉네임";
     }
 }
