@@ -53,18 +53,18 @@ public class HashtagController {
     }
 
 
-    @PatchMapping("/{memberHashtagId}/{type}")
+    @PatchMapping("/{memberHashtagId}")
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "해시태그 활성화/비활성화, 반환값 업음")
-    public void updateUse(@PathVariable("memberHashtagId") Long memberHashtagId, @PathVariable("type") int type) {
+    public void updateUse(@PathVariable("memberHashtagId") Long memberHashtagId) {
         Long memberId = SecurityUtil.getCurrentMemberId();
         hashTagService.updateUse(memberHashtagId, memberId);
     }
 
-    @DeleteMapping("/{memberHashtagId}/{type}")
+    @DeleteMapping("/{memberHashtagId}")
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "해시태그 삭제/반환값 없음")
-    public void delete(@PathVariable("memberHashtagId") Long memberHashtagId, @PathVariable("type") int type) {
+    public void delete(@PathVariable("memberHashtagId") Long memberHashtagId) {
         Long memberId = SecurityUtil.getCurrentMemberId();
         hashTagService.delete(memberHashtagId, memberId);
     }

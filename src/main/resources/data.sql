@@ -9,7 +9,7 @@
 #        ('test', '김민호');
 #
 # insert into auth(member_id,uid, password)
-# values (1,'admin', '{bcrypt}$2a$10$rZh6102niouMyIXl2cl7k.GMPkP9G/r9oJzsaqzCr6296aNrMhD.G'),
+# values (1,'admin', '{bcrypt}$2a$10$wuZV5ej1mc9TTPAxNm8KJ.hwPKTMqy5MEmphRMjXlqAWi9/eTzhA2'),
 #        (2,'test', '{bcrypt}$2a$10$Sa/v2tAJClb78tC5IXVkbeTYvMVmqcjFO0SX3Jds6QPaI.nYkQ5Mu');
 
 # insert into auth_roles(auth_member_id, roles)
