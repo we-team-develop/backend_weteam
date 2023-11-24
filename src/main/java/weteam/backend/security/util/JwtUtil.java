@@ -96,4 +96,9 @@ public class JwtUtil {
         }
         return null;
     }
+
+    public Long getMemberId(String token) {
+        Claims claims = parseClaims(token.substring(7));
+        return claims.get("memberId", Long.class);
+    }
 }
