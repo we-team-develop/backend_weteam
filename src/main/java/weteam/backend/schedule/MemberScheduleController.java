@@ -4,7 +4,7 @@
 //import io.swagger.v3.oas.annotations.media.ArraySchema;
 //import io.swagger.v3.oas.annotations.media.Content;
 //import io.swagger.v3.oas.annotations.media.Schema;
-//import io.swagger.v3.oas.annotations.responses.ApiResponse;
+//import io.swagger.v3.oas.annotations.responses.Message;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 //import jakarta.validation.Valid;
 //import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@
 //    @GetMapping("/{year}/{month}")
 //    @PreAuthorize("hasAnyRole('USER')")
 //    @Operation(summary = "월별 스케줄 조회", responses = {
-//            @ApiResponse(responseCode = "200",
+//            @Message(responseCode = "200",
 //                         content = @Content(array = @ArraySchema(schema = @Schema(implementation =
 //                                 MemberScheduleDto.Res.class))))
 //    })
@@ -55,7 +55,7 @@
 //    @GetMapping("/{year}/{month}/{day}")
 //    @PreAuthorize("hasAnyRole('USER')")
 //    @Operation(summary = "일별 스케줄 조회", responses = {
-//            @ApiResponse(responseCode = "200",
+//            @Message(responseCode = "200",
 //                         content = @Content(array = @ArraySchema(schema = @Schema(implementation =
 //                                 MemberScheduleDto.Res.class))))
 //    })
@@ -72,7 +72,7 @@
 //    @GetMapping("/{id}")
 //    @PreAuthorize("hasAnyRole('USER')")
 //    @Operation(summary = "id에 맞는 스케줄 조회", responses = {
-//            @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation =
+//            @Message(responseCode = "200", content = @Content(schema = @Schema(implementation =
 //                    MemberScheduleDto.Res.class)))
 //    })
 //    public ResponseEntity<MemberScheduleDto.Res> loadById(@PathVariable("id") Long id, Principal principal) {

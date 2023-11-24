@@ -4,7 +4,7 @@
 //import io.swagger.v3.oas.annotations.media.ArraySchema;
 //import io.swagger.v3.oas.annotations.media.Content;
 //import io.swagger.v3.oas.annotations.media.Schema;
-//import io.swagger.v3.oas.annotations.responses.ApiResponse;
+//import io.swagger.v3.oas.annotations.responses.Message;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 //import jakarta.validation.Valid;
 //import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@
 //    @PreAuthorize("hasAnyRole('USER')")
 //    @Operation(summary = "해시태그 조회",
 //               description = "type을 사용한 해시태그 조회",
-//               responses = {@ApiResponse(responseCode = "200",
+//               responses = {@Message(responseCode = "200",
 //                                         content = @Content(array = @ArraySchema(schema = @Schema(implementation =
 //                                                 HashtagDto.Res.class))))
 //               })

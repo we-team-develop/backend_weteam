@@ -8,7 +8,6 @@ import weteam.backend.auth.domain.Auth;
 import weteam.backend.auth.dto.AuthDto;
 import weteam.backend.auth.mapper.AuthMapper;
 import weteam.backend.auth.repository.AuthRepository;
-import weteam.backend.config.dto.ApiResponse;
 import weteam.backend.member.MemberService;
 import weteam.backend.member.domain.Member;
 import weteam.backend.member.mapper.MemberMapper;
@@ -38,19 +37,22 @@ public class AuthService {
         }
 
         String hashedPassword = passwordEncoder.encode(request.getPassword());
-        Auth auth = AuthMapper.instance.toEntity(request,hashedPassword, member);
+        Auth auth = AuthMapper.instance.toEntity(request, hashedPassword, member);
 
         authRepository.save(auth);
     }
 
-    public ApiResponse verifyUid(String uid) {
-        return authRepository.findByUid(uid).isPresent() ?
-               ApiResponse.builder().result(false).message("중복된 아이디입니다.").build() :
-               ApiResponse.builder().result(true).message("사용 가능한 아이디입니다.").build();
+    public String verifyUid(String uid) {
+        if (authRepository.findByUid(uid).isPresent()) {
+            throw new RuntimeException("중복된 아이디");
+        }
+        return "사용 가능한 아이디";
     }
-    public ApiResponse verifyNickname(String nickname) {
-        return memberService.findByNickname(nickname).isPresent() ?
-               ApiResponse.builder().result(false).message("중복된 닉네임입니다.").build() :
-               ApiResponse.builder().result(true).message("사용 가능한 닉네임입니다.").build();
+
+    public String verifyNickname(String nickname) {
+        if (memberService.findByNickname(nickname).isPresent()) {
+            throw new RuntimeException("중복된 닉네임");
+        }
+        return "사용 가능한 닉네임";
     }
 }
