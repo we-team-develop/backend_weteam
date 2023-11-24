@@ -33,7 +33,6 @@ public class JwtUtil {
     }
 
     public String generateToken(Authentication authentication) {
-        CustomUser customUser =(CustomUser) authentication.getPrincipal();
         String authorities = authentication.getAuthorities().stream()
                                            .map(GrantedAuthority::getAuthority)
                                            .collect(Collectors.joining(","));
@@ -43,7 +42,6 @@ public class JwtUtil {
         return Jwts.builder()
                    .setSubject(authentication.getName())
                    .claim("auth", authorities)
-                   .claim("memberId", customUser.getAuth().getId())
                    .setExpiration(accessTokenExpiresIn)
                    .signWith(key, SignatureAlgorithm.HS256)
                    .compact();

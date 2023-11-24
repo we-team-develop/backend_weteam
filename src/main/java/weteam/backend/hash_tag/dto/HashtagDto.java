@@ -27,6 +27,7 @@ public class HashtagDto {
     @Getter
     @Builder
     @ToString
+    @Schema(name = "HashtagDto.Res")
     public static class Res{
         private Long id;
         private String name;

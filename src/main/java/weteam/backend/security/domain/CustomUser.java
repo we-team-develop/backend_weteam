@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 public class CustomUser extends User {
     private Auth auth;
     public CustomUser(Auth auth) {
-        super(auth.getUid(), auth.getPassword(), auth.getRoles()
-                                                     .stream()
-                                                     .map(SimpleGrantedAuthority::new)
-                                                     .collect(Collectors.toList()));
+        super(String.valueOf(auth.getId()), auth.getPassword(), auth.getRoles()
+                                                                    .stream()
+                                                                    .map(SimpleGrantedAuthority::new)
+                                                                    .collect(Collectors.toList()));
         this.auth = auth;
     }
 }

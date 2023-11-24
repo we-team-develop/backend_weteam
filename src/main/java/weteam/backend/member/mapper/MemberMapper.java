@@ -17,6 +17,9 @@ public interface MemberMapper {
     MemberMapper instance = Mappers.getMapper(MemberMapper.class);
 
     Member extractMember(AuthDto.Join request);
+
+    @Mapping(target = "hashtagList", source = "memberHashtagList", qualifiedByName = "setHashtagList")
+    MemberDto.Res toRes(Member member);
 //    @Mapping(target = "image", ignore = true)
 //    Member toEntity(MemberDto.Join request);
 //
@@ -31,15 +34,15 @@ public interface MemberMapper {
 //    @Mapping(target = "jwt", source = "jwt")
 //    MemberDto.JoinRes toJoinRes(Member member, String jwt);
 //
-//    @Named("setHashtagList")
-//    default List<HashtagDto.Res> setHashtagList(List<MemberHashtag> hashtagList) {
-//        return hashtagList.stream().map(memberHashtag -> {
-//            return HashtagDto.Res.builder()
-//                                 .id(memberHashtag.getId())
-//                                 .name(memberHashtag.getHashtag().getName())
-//                                 .type(memberHashtag.getHashtag().getType())
-//                                 .isUse(memberHashtag.isUse())
-//                                 .build();
-//        }).collect(Collectors.toList());
-//    }
+    @Named("setHashtagList")
+    default List<HashtagDto.Res> setHashtagList(List<MemberHashtag> hashtagList) {
+        return hashtagList.stream().map(memberHashtag -> {
+            return HashtagDto.Res.builder()
+                                 .id(memberHashtag.getId())
+                                 .name(memberHashtag.getHashtag().getName())
+                                 .type(memberHashtag.getHashtag().getType())
+                                 .isUse(memberHashtag.isUse())
+                                 .build();
+        }).collect(Collectors.toList());
+    }
 }

@@ -15,12 +15,12 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Member findMemberWithUseHashtagList(String uid) {
+    public Member findMyInfoWithUseHashtag(Long memberId) {
         return jpaQueryFactory.selectFrom(member)
                               .leftJoin(member.memberHashtagList, memberHashtag)
-                              .on(memberHashtag.isUse.eq(true))
+                              .where(memberHashtag.isUse.isTrue()).fetchJoin()
                               .leftJoin(memberHashtag.hashtag, hashtag)
-//                              .where(member.uid.eq(uid))
+                              .where(member.id.eq(memberId))
                               .fetchOne();
     }
 }
