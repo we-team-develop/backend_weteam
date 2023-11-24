@@ -1,8 +1,12 @@
 package weteam.backend.config.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -17,13 +21,5 @@ public class Message<T>{
     private String message;
 
     @Schema(description = "데이터")
-    private T data;
-
-//    public static Message of(String message) {
-//        return new Message(true, HttpStatus.OK, message, null);
-//    }
-//
-//    public static Message of(String message, Object data) {
-//        return new Message(true, HttpStatus.OK, message, data);
-//    }
+    private T data ;
 }

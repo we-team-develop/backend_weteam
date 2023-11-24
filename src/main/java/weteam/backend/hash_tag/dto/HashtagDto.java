@@ -14,6 +14,7 @@ import java.util.List;
 
 @Getter
 @Builder
+@Schema(name = "HashtagDto")
 public class HashtagDto {
     @NotBlank(message = "name 누락")
     @Size(min = 1,max = 11)
