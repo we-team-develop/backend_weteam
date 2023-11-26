@@ -7,6 +7,7 @@ import weteam.backend.member.domain.Member;
 import weteam.backend.member.repository.MemberCustomRepository;
 import weteam.backend.member.repository.MemberRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +30,8 @@ public class MemberService {
     }
 
     public Member findMyInfoWithUseHashtag(Long id) {
-        return memberCustomRepository.findMyInfoWithUseHashtag(id);
+        Member memberList = memberCustomRepository.findMyInfoWithUseHashtag(id);
+        return memberList;
     }
 
     public Member loadById(Long id) {
