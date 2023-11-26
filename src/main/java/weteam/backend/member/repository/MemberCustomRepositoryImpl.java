@@ -22,16 +22,12 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 
     @Override
     public Member findMyInfoWithUseHashtag(Long memberId) {
-        Member data = jpaQueryFactory.selectFrom(member)
+        return jpaQueryFactory.selectFrom(member)
                                      .leftJoin(member.memberHashtagList, memberHashtag).fetchJoin()
                                      .leftJoin(memberHashtag.hashtag, hashtag).fetchJoin()
-                                     .where(member.id.eq(memberId))
+                                     .where(member.id.eq(memberId),
+                                            memberHashtag.isUse.isTrue().or(memberHashtag.isNull()))
+                                     .distinct()
                                      .fetchOne();
-
-        data.setMemberHashtagList(data.getMemberHashtagList()
-                                      .stream()
-                                      .filter(MemberHashtag::isUse)
-                                      .collect(Collectors.toList()));
-        return data;
     }
 }
