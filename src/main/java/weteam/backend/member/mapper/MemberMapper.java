@@ -2,6 +2,7 @@ package weteam.backend.member.mapper;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+import weteam.backend.auth.dto.AuthDto;
 import weteam.backend.hash_tag.domain.MemberHashtag;
 import weteam.backend.hash_tag.dto.HashtagDto;
 import weteam.backend.member.domain.Member;
@@ -15,23 +16,24 @@ import java.util.stream.Collectors;
 public interface MemberMapper {
     MemberMapper instance = Mappers.getMapper(MemberMapper.class);
 
-    @Mapping(target = "image", ignore = true)
-    @Mapping(target = "roles", source = "role")
-    @Mapping(target = "password", source = "password")
-    Member toEntity(MemberDto.Join request, String password, List<String> role);
+    Member extractMember(AuthDto.Join request);
 
-    @Mapping(target = "imageUrl", ignore = true)
-    MemberDto.LoginRes toLoginRes(Member member);
-
-//    @Mapping(target = "memberId", source = "member.id")
-    @Mapping(target = "jwt", source = "jwt")
-    @Mapping(target = "imageUrl", ignore = true)
-    @Mapping(target = "hashtagList", source = "member.memberHashtagList", qualifiedByName = "setHashtagList")
-    MemberDto.LoginRes toLoginRes(Member member, String jwt);
-
-    @Mapping(target = "jwt", source = "jwt")
-    MemberDto.JoinRes toJoinRes(Member member, String jwt);
-
+    @Mapping(target = "hashtagList", source = "memberHashtagList", qualifiedByName = "setHashtagList")
+    MemberDto.Res toRes(Member member);
+//    @Mapping(target = "image", ignore = true)
+//    Member toEntity(MemberDto.Join request);
+//
+//    @Mapping(target = "imageUrl", ignore = true)
+//    MemberDto.LoginRes toLoginRes(Member member);
+//
+//    @Mapping(target = "jwt", source = "jwt")
+//    @Mapping(target = "imageUrl", ignore = true)
+//    @Mapping(target = "hashtagList", source = "member.memberHashtagList", qualifiedByName = "setHashtagList")
+//    MemberDto.LoginRes toLoginRes(Member member, String jwt);
+//
+//    @Mapping(target = "jwt", source = "jwt")
+//    MemberDto.JoinRes toJoinRes(Member member, String jwt);
+//
     @Named("setHashtagList")
     default List<HashtagDto.Res> setHashtagList(List<MemberHashtag> hashtagList) {
         return hashtagList.stream().map(memberHashtag -> {

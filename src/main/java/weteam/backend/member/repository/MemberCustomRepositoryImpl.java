@@ -1,11 +1,15 @@
 package weteam.backend.member.repository;
 
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import weteam.backend.hash_tag.domain.MemberHashtag;
+import weteam.backend.hash_tag.domain.QMemberHashtag;
 import weteam.backend.member.domain.Member;
 
-import java.util.List;
+import java.util.stream.Collectors;
 
 import static weteam.backend.hash_tag.domain.QHashtag.hashtag;
 import static weteam.backend.hash_tag.domain.QMemberHashtag.memberHashtag;
@@ -17,12 +21,13 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Member findMemberWithUseHashtagList(String uid) {
+    public Member findMyInfoWithUseHashtag(Long memberId) {
         return jpaQueryFactory.selectFrom(member)
-                              .leftJoin(member.memberHashtagList, memberHashtag)
-                              .on(memberHashtag.isUse.eq(true))
-                              .leftJoin(memberHashtag.hashtag, hashtag)
-                              .where(member.uid.eq(uid))
-                              .fetchOne();
+                                     .leftJoin(member.memberHashtagList, memberHashtag).fetchJoin()
+                                     .leftJoin(memberHashtag.hashtag, hashtag).fetchJoin()
+                                     .where(member.id.eq(memberId),
+                                            memberHashtag.isUse.isTrue().or(memberHashtag.isNull()))
+                                     .distinct()
+                                     .fetchOne();
     }
 }

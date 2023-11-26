@@ -28,7 +28,7 @@ public class MemberScheduleDto {
     @Schema(description = "알람 / null 가능", nullable = true, example = "2023.11.21 11:11:11")
     private LocalDateTime alarm;
 
-    //TODO: annotaion으로 전환
+    //TODO: validation annotaion으로 만들기 (null / 1~5)
     @Schema(description = "반복  ", nullable = true, example = "2023.11.21 11:11:11")
     private int repeatType;
 

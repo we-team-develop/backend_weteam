@@ -14,80 +14,21 @@ import java.util.List;
 public class MemberDto {
     @Getter
     @Builder
-    public static class Join {
-        @Size(min = 1, max = 11)
-        @NotBlank(message = "uid 누락")
-        @Schema(description = "사용자 아이디", nullable = false, example = "test1234")
-        private String uid;
+    @Schema(name = "MemberDto.Res")
+    public static class Res{
+        @Schema(description = "사용자 pk", nullable = false, example = "7")
+        private String id;
 
-        @Size(min = 1,max = 11)
-        @Schema(description = "사용자 이름", nullable = false, example = "홍유진")
-        private String username;
-
-        @NotBlank(message = "password 누락")
-        @Size(min = 4,max = 50)
-        @Schema(description = "사용자 비밀번호", nullable = false, example = "11111111")
-        private String password;
-
-        @NotBlank(message = "nickname 누락")
-        @Size(min = 1,max = 50)
-        @Schema(description = "사용자 닉네임", nullable = false, example = "nickname1")
-        private String nickname;
-    }
-    @Getter
-    @Builder
-    public static class Login{
-        @NotBlank(message = "uid 누락")
-        @Size(min = 1,max = 11)
-        @Schema(description = "사용자 아이디", nullable = false, example = "user11111")
-        private String uid;
-
-        @NotBlank(message = "password 누락")
-        @Size(min = 1,max = 11)
-        @Schema(description = "사용자 비밀번호", nullable = false, example = "1111")
-        private String password;
-    }
-    @Getter
-    @Builder
-    public static class LoginRes {
-        @Schema(description = "사용자 pk", nullable = false, example = "12")
-        private Long id;
-
-        @Schema(description = "사용자 아이디", nullable = false, example = "user1111")
-        private String uid;
-
-        @Schema(description = "사용자 이름", nullable = false, example = "홍유진")
-        private String username;
-
-        @Schema(description = "사용자 닉네임", nullable = false, example = "nickname111")
+        @Schema(description = "사용자 닉네임", nullable = false, example = "인덕대 손흥민")
         private String nickname;
 
-        @Schema(description = "사용자 프로필 사진", nullable = true, example = "image url/asdafasdcsvasdasdasd")
-        private String imageUrl;
+        @Schema(description = "사용자 성명", nullable = false, example = "김성현")
+        private String username;
 
-        @Schema(description = "해시태그 리스트", nullable = true)
+        @Schema(description = "사용자 소속", nullable = false, example = "인덕대 컴퓨터소프트웨어학과")
+        private String organization;
+
+        @Schema(description = "사용자 해시태그 리스트", nullable = false)
         private List<HashtagDto.Res> hashtagList = new ArrayList<>();
-
-        @Schema(description = "jwt", nullable = false)
-        private String jwt;
-    }
-
-    @Getter
-    @Builder
-    public static class JoinRes{
-        @Schema(description = "사용자 pk", nullable = false, example = "12")
-        private Long id;
-
-        @Schema(description = "사용자 아이디", nullable = false, example = "user1111")
-        private String uid;
-
-        @Schema(description = "사용자 이름", nullable = false, example = "홍유진")
-        private String username;
-
-        @Schema(description = "사용자 닉네임", nullable = false, example = "nickname111")
-        private String nickname;
-
-        @Schema(description = "jwt", nullable = false)
-        private String jwt;
     }
 }

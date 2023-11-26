@@ -13,7 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MemberImage {
     @Id
+    private Long id;
+
     @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     private Member member;
 
     @Column(nullable = false)

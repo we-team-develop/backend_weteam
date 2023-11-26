@@ -1,8 +1,9 @@
-package weteam.backend.auth.util;
+package weteam.backend.security.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +13,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import weteam.backend.security.domain.CustomUser;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -29,19 +32,16 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(Authentication authentication,Long memberId) {
-        // 권한 가져오기
+    public String generateToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                                            .map(GrantedAuthority::getAuthority)
                                            .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-
         Date accessTokenExpiresIn = new Date(now + 60 * 24 * 1000);
         return Jwts.builder()
                    .setSubject(authentication.getName())
                    .claim("auth", authorities)
-                   .claim("memberId", memberId)
                    .setExpiration(accessTokenExpiresIn)
                    .signWith(key, SignatureAlgorithm.HS256)
                    .compact();
@@ -86,5 +86,17 @@ public class JwtUtil {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
+    }
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    public Long getMemberId(String token) {
+        Claims claims = parseClaims(token.substring(7));
+        return claims.get("memberId", Long.class);
     }
 }

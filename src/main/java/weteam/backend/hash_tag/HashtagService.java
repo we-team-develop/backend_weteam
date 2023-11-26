@@ -25,9 +25,9 @@ public class HashtagService {
     private final MemberHashtagCustomRepository memberHashtagCustomRepository;
     private final MemberService memberService;
 
-    public void createHashtag(HashtagDto request, Long memberId) {
+    public void create(HashtagDto request, Long memberId) {
         Optional<Hashtag> data = hashTagRepository.findByName(request.getName());
-        Member member = memberService.loadMemberById(memberId);
+        Member member = memberService.loadById(memberId);
 
         if (data.isEmpty()) {
             Hashtag hashtag = HashtagMapper.instance.toEntity(request);
@@ -55,13 +55,13 @@ public class HashtagService {
         return memberHashtagCustomRepository.findByMemberIdWithType(memberId, type);
     }
 
-    public void updateHashtagUse(Long memberHashtagId, Long memberId) {
+    public void updateUse(Long memberHashtagId, Long memberId) {
         MemberHashtag memberHashtag = checkHashtag(memberHashtagId, memberId);
         memberHashtag.setUse(!memberHashtag.isUse());
         memberHashtagRepository.save(memberHashtag);
     }
 
-    public void deleteHashtag(Long memberHashtagId, Long memberId) {
+    public void delete(Long memberHashtagId, Long memberId) {
         MemberHashtag memberHashtag = checkHashtag(memberHashtagId, memberId);
         memberHashtagRepository.delete(memberHashtag);
     }

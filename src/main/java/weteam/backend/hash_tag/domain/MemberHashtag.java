@@ -15,7 +15,7 @@ public class MemberHashtag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ColumnDefault("false")
+    @Column(columnDefinition = "BIT DEFAULT 0")
     private boolean isUse;
 
     private String color;

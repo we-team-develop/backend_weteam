@@ -14,6 +14,7 @@ import java.util.List;
 
 @Getter
 @Builder
+@Schema(name = "HashtagDto")
 public class HashtagDto {
     @NotBlank(message = "name 누락")
     @Size(min = 1,max = 11)
@@ -27,6 +28,7 @@ public class HashtagDto {
     @Getter
     @Builder
     @ToString
+    @Schema(name = "HashtagDto.Res")
     public static class Res{
         private Long id;
         private String name;
